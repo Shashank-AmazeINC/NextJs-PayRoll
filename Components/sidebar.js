@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import SidebarStyles from './layout.module.css'
 
-function Sidebar({children}) {
+function Sidebar({ children }) {
     let [displayAttendence, toggleAttendence] = useState(false)
     let [displayLoans, toggleLoans] = useState(false)
     let [displayPayroll, togglePayRoll] = useState(false)
@@ -207,47 +207,47 @@ function Sidebar({children}) {
                                 <button className={SidebarStyles.sidesubmenu}>province master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/barangaymasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>barangay master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/departmentmasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>department master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/divisionmasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>division master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/worklocationmasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>worklocation master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/brandmasterdashboard">
                                 <button className={SidebarStyles.sidesubmenu}>band master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/subsidarymasterdashboard">
                                 <button className={SidebarStyles.sidesubmenu}>subsidary master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/otratedashboard">
                                 <button className={SidebarStyles.sidesubmenu}>ot master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/positionmasterdashboard">
                                 <button className={SidebarStyles.sidesubmenu}>position master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/leveltypedashboard">
                                 <button className={SidebarStyles.sidesubmenu}>job level type</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/">
                                 <button className={SidebarStyles.sidesubmenu}>group master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/subsectionmaster">
                                 <button className={SidebarStyles.sidesubmenu}>sub-section master</button>
                             </Link>
                         </div>

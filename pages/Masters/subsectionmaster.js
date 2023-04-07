@@ -2,9 +2,10 @@ import Link from 'next/link'
 import React from 'react'
 import Styles from '../../styles/SubSectionMaster.module.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
+import Layout from '@/Components/layout'
 function SubSectionMaster() {
     return (
-        <div>
+        <Layout>
             <br />
             <h5 id={Styles.h5} className='text-primary fw-bold'>SubSection Master</h5>
             <div className="card p-3  shadow-lg rounded-4" id={Styles.card}>
@@ -64,16 +65,7 @@ function SubSectionMaster() {
 
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-        </div >
+        </Layout>
     )
 }
 

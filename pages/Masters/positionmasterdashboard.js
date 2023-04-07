@@ -4,9 +4,10 @@ import Styles from '../../styles/PositionMasterDash.module.css'
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import table from "../../styles/table.module.css";
 import Link from "next/link";
+import Layout from "@/Components/layout";
 function PositionMasterDash() {
   return (
-    <div>
+    <Layout>
       <br></br>
       <p id={Styles.title}>Position  Master</p>
       <div className="container-fluid mt-4">
@@ -88,7 +89,7 @@ function PositionMasterDash() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout >
   )
 }
 

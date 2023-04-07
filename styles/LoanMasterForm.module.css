@@ -1,0 +1,13 @@
+#span {
+    color: red;
+    font-family: Poppins;
+}
+
+#card {
+    width: 98%;
+    margin-left: 8px;
+    justify-content: center;
+    font-family: Poppins;
+    font-weight: bold;
+
+}

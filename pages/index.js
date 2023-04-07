@@ -5,7 +5,7 @@ import Layout from '@/Components/layout.js'
 function Index({}) {
   return (
     <Layout>
-
+        
     </Layout>
   )
 }

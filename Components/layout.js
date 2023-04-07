@@ -3,7 +3,7 @@ import Header from './header'
 import Sidebar from './sidebar'
 import Login from './login';
 
-function Layout({ }) {
+function Layout({ children }) {
 
     let isLogin = "no";
 
@@ -18,6 +18,7 @@ function Layout({ }) {
         <div className='row'>
             <div className='col-lg-12'>
                 <Header></Header>
+
             </div>
             <div>
 
@@ -25,7 +26,9 @@ function Layout({ }) {
                     <div className='col-lg-2'>
                         <Sidebar></Sidebar>
                     </div>
-
+                    <div className='col-lg-10'>
+                        <main>{children}</main>
+                    </div>
                 </div>
             </div>
         </div>

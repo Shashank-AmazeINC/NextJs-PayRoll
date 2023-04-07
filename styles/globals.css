@@ -1,0 +1,35 @@
+#AddButton {
+    width: 85%;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 1px 1px 17px 1px #3247d599;
+    text-transform: uppercase;
+    background: #3247d5;
+}
+
+.Heading {
+    color: #3247d5;
+    font-size: 19px !important;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.Heading:active{
+    border-bottom:2px solid #3247d5;
+}
+
+.Dropzone{
+    display: flex;
+    align-items: center;
+    height: 140px;
+    background: #fff;
+    cursor: pointer;
+    color: #3a4be9;
+    border: 2px dashed #717386;
+    border-radius: 5px;
+    font-size: 16px;
+    overflow-x: auto;
+    text-align: center;
+}

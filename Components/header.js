@@ -5,7 +5,7 @@ import Notification from '../public/notification.png'
 import HeaderStyles from './header.module.css'
 
 
-function Header({ }) {
+function Header({children }) {
     return (
         <div className={'row'} style={{ background: "#6610f2" }}>
             <div className='col-lg-2 m-2'>

@@ -4,7 +4,7 @@ import loginStyle from './login.module.css'
 import Loginpage from '../public/DigiLogin.png'
 import digiLogo from '../public/DigiLogo.png'
 import Image from 'next/image'
-function Login() {
+function Login({children}) {
 
     const [isLogin, setILogin] = useState("no");
 

@@ -48,17 +48,17 @@ function Runpayroll() {
                         </div>
                     </div>
                     <div className="col-lg-2">
-                        <br/><br/>
+                        <br /><br />
                         <Button
-          color="primary"
-          type="button"
-          id="collapseExample"
-          onClick={() => {
-            setCollapseOpen(!collapseOpen);
-          }}
-        >
-          Fetch Employees
-        </Button>
+                            color="primary"
+                            type="button"
+                            id="collapseExample"
+                            onClick={() => {
+                                setCollapseOpen(!collapseOpen);
+                            }}
+                        >
+                            Fetch Employees
+                        </Button>
                     </div>
                     <div className="col-lg-2">
                         <p >Search <br ></br></p>
@@ -113,30 +113,30 @@ function Runpayroll() {
             </div>
             <div id="employee1" className="row row" style={{ height: "500px" }}><div className="col-lg-12">
                 <Collapse isOpen={collapseOpen}>
-               
-                <table id="downloadaplication" className="table table-bordered fonttxt" style={{ height: "300px" }}>
-                    <thead className='bg-info text-white ' >
-                        <tr >
-                            <th >
-                                <input type="checkbox"></input>
-                            </th>
-                            <th >Employee Id</th>
-                            <th >Employee Name</th>
-                            <th >Department</th>
-                            <th >Position</th>
-                            <th >Email</th>
-                            <th >Date Of Joining</th>
-                            <th >Manager</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                    </tbody>
-                </table> </Collapse>
+
+                    <table id="downloadaplication" className="table table-bordered fonttxt" style={{ height: "300px" }}>
+                        <thead className='bg-info text-white ' >
+                            <tr >
+                                <th >
+                                    <input type="checkbox"></input>
+                                </th>
+                                <th >Employee Id</th>
+                                <th >Employee Name</th>
+                                <th >Department</th>
+                                <th >Position</th>
+                                <th >Email</th>
+                                <th >Date Of Joining</th>
+                                <th >Manager</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                        </tbody>
+                    </table> </Collapse>
             </div>
                 <div className="text-right">
                     <br></br>
-                   
-                    </div>
+
+                </div>
             </div>
             <br ></br><br ></br>
             <div id="employee" class="row rowwidth collapse" >
@@ -159,14 +159,14 @@ function Runpayroll() {
 
                         </tbody>
                     </table>
-                    
+
                 </div>
                 <div className="text-right">
                     <br ></br>
-                  
+
                 </div>
             </div>
-            
+
         </div>
     )
 }

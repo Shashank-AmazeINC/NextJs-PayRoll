@@ -1,8 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
+import Layout from '../../Components/layout.js';
 
 function MyTeamAttendence() {
     return (
+        <Layout>
         <div>
             <div className='container'>
                 <div className='row mt-3'>
@@ -65,6 +67,7 @@ function MyTeamAttendence() {
                 </table>
             </div>
         </div>
+        </Layout>
     )
 }
 

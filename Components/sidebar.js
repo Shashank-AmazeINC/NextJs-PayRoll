@@ -48,11 +48,11 @@ function Sidebar({children}) {
 
                     displayAttendence && (
                         < div >
-                            <Link href="">
+                            <Link href="/Attendence/attendencedetails">
                                 <button className={SidebarStyles.sidesubmenu}>Attendence Details</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Attendence/myteamovertimedetails">
                                 <button className={SidebarStyles.sidesubmenu}>Overtime units upload</button>
                             </Link>
                         </div>
@@ -64,7 +64,7 @@ function Sidebar({children}) {
 
                     displayLoans && (
                         < div >
-                            <Link href="">
+                            <Link href="/Loans/teamloans">
                                 <button className={SidebarStyles.sidesubmenu}>Loans Upload</button>
                             </Link>
                         </div>
@@ -187,19 +187,19 @@ function Sidebar({children}) {
 
                     displayMasters && (
                         < div >
-                            <Link href="">
+                            <Link href="/Masters/leavetypedashboard">
                                 <button className={SidebarStyles.sidesubmenu}>leave type</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/loanmasterdashboard">
                                 <button className={SidebarStyles.sidesubmenu}>loan type</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/shiftmaster">
                                 <button className={SidebarStyles.sidesubmenu}>shift master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/countrymasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>country master</button>
                             </Link>
 

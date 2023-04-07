@@ -1,9 +1,6 @@
 import React from 'react'
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import Swal from 'sweetalert2'
 import dynamic from 'next/dynamic';
 import leaveform from '../../styles/LeaveTypeForm.module.css'
 function LeaveTypeForm() {
@@ -17,30 +14,12 @@ function LeaveTypeForm() {
     // });
 
     // form validation rules 
-    const validationSchema = Yup.object().shape({
-        title: Yup.string()
-            .required('Title is required'),
-
-        LeaveType: Yup.string()
-            .required('Leave Type is required')
-            .min(6, 'at least 6 characters'),
-
-        Description: Yup.string()
-            .min(25, 'min 25 characters')
-            .required('Description is required'),
-
-    });
-    const formOptions = { resolver: yupResolver(validationSchema) };
-
+ 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, reset, formState } = useForm(formOptions);
+    const { register, handleSubmit, reset, formState } = useForm();
     const { errors } = formState;
 
-    function onSubmit(data) {
-        // display form data on success
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(data, null, 4));
-        return false;
-    }
+    
 
     return (
         <div>
@@ -60,7 +39,7 @@ function LeaveTypeForm() {
                 </div>
                 <br />
                 <div className={leaveform.card}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form >
                         <div className="row leavereq">
                             <div className="col-md-2">
                                 <label className='fw-bold'>Leave Type<span className={leaveform.span}>*</span>
@@ -90,7 +69,7 @@ function LeaveTypeForm() {
                             </div>
                             <div className="col-lg-2">
                              
-                                <button class={leaveform.button} onclick="LeaveTypeForm();">
+                                <button class={leaveform.button} >
                                     SUBMIT
                                 </button>
                             </div>

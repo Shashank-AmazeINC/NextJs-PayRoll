@@ -11,14 +11,14 @@ function Login({children}) {
     function login() {
         setILogin("yes");
         sessionStorage.setItem("isLogin", "yes");
-        location.href = "/masters/dashboard";
+        window.location.href = "/Home/dashboard";
     }
 
     function logout() {
         setILogin("no");
         sessionStorage.clear();
         sessionStorage.setItem("isLogin", "no");
-        location.href = "/";
+        location.href = "";
     }
 
     return (

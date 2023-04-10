@@ -8,25 +8,15 @@ import { useEffect, useState } from 'react';
 
 
 export default function SubsidaryMasterForm() {
-    // form validation rules 
 
-    // get functions to build form with useForm() hook
+    const hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     const [actionType, setActionType] = useState("insert");
-
-
-
-    // useEffect(async (id) => {
-    //     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-    //     let res = await axios.get(hostURL + "Master/GetSubsidaryMasterByID?ID=" + id);
-    //     clearForm(res.data[0]);
-    // }, [1]);
-
+    
     useEffect(() => {
-        async function GetSubsidaryMaster() {
-            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        async function GetSubsidaryMaster() {            
             const id = sessionStorage.getItem("id");
             if (id) {
                 const response = await axios.get(hostURL + "Master/GetSubsidaryMasterByID?ID=" + id);
@@ -40,12 +30,7 @@ export default function SubsidaryMasterForm() {
         GetSubsidaryMaster();
 
     }, [1]);
-
-
-
-
-
-
+    
     function clearForm(userData = null) {
         let details = {
             "ID": userData ? userData.id : "",
@@ -55,11 +40,8 @@ export default function SubsidaryMasterForm() {
         reset(details);
         setActionType(userData ? "update" : 'insert')
     }
-
-
+    
     async function onSubmit(data) {
-        console.log(data)
-        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
         if (actionType == "insert") {
             await axios.post(hostURL + "Master/InsertSubsidaryMaster", data);
             alert("inserted");
@@ -85,7 +67,6 @@ export default function SubsidaryMasterForm() {
                     </div>
                     <br />
                     <div className={subsidaryform.card}>
-
                         <div className="row leavereq">
                             <div className="col-md-4 fw-bold">
                                 <label >Subsidiary<span className={subsidaryform.span}>*</span></label></div>
@@ -127,9 +108,9 @@ export default function SubsidaryMasterForm() {
                                 </div>
                             </div>
 
-                        </form> </div>
+                        </form>
+                    </div>
                 </div>
-
             </div>
         </Layout >
     )

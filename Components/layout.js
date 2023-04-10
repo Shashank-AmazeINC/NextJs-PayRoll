@@ -4,7 +4,6 @@ import styles from './layout.module.css';
 import Sidebar from './sidebar'
 import Login from './login';
 import Head from 'next/head';
-import Footer from './footer';
 
 
 const  Layout=({ children })=> {
@@ -44,54 +43,38 @@ const  Layout=({ children })=> {
         setPageName(data);
     }
 
-    if (isLogin == "yes") {
-        return (
-            <>
-             <div className={styles.divNegate}>
-                <Head>
-                    <title>Next Js Payrool </title>
-                </Head>
-                <div className='row'>
-                <div className='col-lg-12' style={{ backgroundColor: '#f5f8fb' }}>
-
-                        <Header makelogout={logout} pageName={pageName} ></Header>
+    // if (isLogin == "yes") {
+    return (
+        <>
+            <Head>
+                <title>Pay Roll</title>
+            </Head>
+            <div className='container-fluid'>
+                <div className='row' style={{ overflowX: 'hidden' }}>
+                    <div className='col-lg-12' style={{ height: '10vh' }}>
+                        <Header></Header>
                     </div>
-                    </div>
-
+                </div>
                 <div className='row'>
-                    <div className='col-lg-2'>
+                    <div className='col-lg-2' style={{ height: '90vh', overflowY: 'auto' }}>
                         <Sidebar></Sidebar>
                     </div>
-                    <div className='col-lg-10' style={{ backgroundColor: '#f5f8fb' }}>
-                        <main pageName={pageName} style={{ height: '90vh', overflowY: 'auto' }}>{children}</main>
-                         <Footer></Footer>
-                    </div>
-                </div>
-                {/* <div className='row'>
-                <div className='col-lg-12' style={{ backgroundColor: '#f5f8fb' }}>
-                       
-                    </div>
-                    </div> */}
-            </div>
-        </>
-        )
-    }
-    else {
-        return (
-            <div className={styles.divNegate}>
-                <Head>
-                    <title style={{color:'white'}}>Next Js Payrool</title>
-                </Head>
-                <div className='row'>
-                    <div className='col-lg-12'>
-                        {/* <h1>login</h1> */}
-                        <Login makelogin={login}></Login>
+                    <div className='col-lg-10' style={{ height: '90vh', overflowY: 'auto' }}>
+                        <main>{children}</main>
                     </div>
                 </div>
             </div>
-            
-        )
-    }
+        </div>
+    )
+    // }
+    // else
+    //     return (
+    //         <div className='row'>
+    //             <div className='col-lg-12'>
+    //                 <Login></Login>
+    //             </div>
+    //         </div>
+    //     )
 }
 
 

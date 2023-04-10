@@ -33,7 +33,7 @@ const  Sidebar=({ children }) => {
         toggleMasters(!displayMasters);
     };
     return (
-        <div className='row' style={{ height: "100vh", overflowY: "auto" }}>
+        <div className='row' style={{ height: "90vh", overflowY: "auto"}}>
             <div className='col-lg-12'>
                 <Link href="/Home/dashboard" >
                     <button className={SidebarStyles.sidemenu}>Home</button>

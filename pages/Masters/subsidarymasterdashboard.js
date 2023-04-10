@@ -3,8 +3,40 @@ import Styles from '../../styles/SubsidaryMasterDash.module.css'
 import Link from 'next/link'
 import Layout from '@/Components/layout'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
+import { useEffect, useState } from 'react';
 
-function SubsidaryMasterDash() {
+
+
+export default function SubsidaryMasterDash() {
+
+    const [SubsidaryMaster, setSubsidaryMaster] = useState([]);
+
+    const getSubsidaryMaster = async () => {
+        const { data } = await axios.get("http://localhost:4199/Master/GetStudentDetails")
+        setSubsidaryMaster(data)
+    }
+
+    useEffect(() => {
+        getSubsidaryMaster()
+    }, [1])
+
+    const getData = (data) => {
+        sessionStorage.setItem("id", data.id);
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:4199/Master/DeleteStudentDetails?id=${id}`);
+            console.log(res.data);
+            alert("Data deleted successfully");
+            getstudentdetails();
+        } catch (error) {
+            console.error(error);
+            alert("Failed to delete data");
+        }
+    };
+
+
     return (
         <Layout>
             <div>
@@ -46,38 +78,25 @@ function SubsidaryMasterDash() {
                             </tr>
                         </thead>
                         <tbody >
-                            <tr id={Styles.td}>
-                                <td id={Styles.td} >Asti Business Services Inc. (ABSI)	</td>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td id={Styles.td}><button id={Styles.actionButton}>Edit</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                            {SubsidaryMaster.map((data) => {
+                                return (
+                                    <tr key={data.id}>
+                                        <td>{data.name}</td>
+                                        <td>{data.description}</td>
 
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc. (BRAD)	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td id={Styles.td}>Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>HCX Technology Partners Inc.	</td>
-                                <td id={Styles.td}>HCX Technology Partners Inc.	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
+                                        {/* <td>
+                                            <Link href="/forms">
+                                                <button className="btn btn-primary" onClick={getData.bind(this, data)}>Edit</button>
+                                            </Link>
+                                            &nbsp;
+
+                                            <button className="btn btn-danger" onClick={() => handleDelete(data.id)}>Delete</button>
+                                        </td> */}
+
+                                    </tr>
+                                )
+                            })
+                            }
                         </tbody>
                     </table>
 
@@ -89,5 +108,3 @@ function SubsidaryMasterDash() {
         </Layout>
     )
 }
-
-export default SubsidaryMasterDash

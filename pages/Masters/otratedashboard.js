@@ -32,7 +32,6 @@ function OTRateDash() {
             let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
             const res = await axios.get(hostURL + `Master/DeleteOTRates?id=${id}`);
             console.log(res.data);
-            alert('Data deleted');
             Swal.fire({
                 icon: "success",
                 title: "Hurray..",

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Layout from '@/Components/layout'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import Swal from 'sweetalert2';
 
 export default function SubsidaryMasterForm() {
 
@@ -14,9 +14,9 @@ export default function SubsidaryMasterForm() {
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     const [actionType, setActionType] = useState("insert");
-    
+
     useEffect(() => {
-        async function GetSubsidaryMaster() {            
+        async function GetSubsidaryMaster() {
             const id = sessionStorage.getItem("id");
             if (id) {
                 const response = await axios.get(hostURL + "Master/GetSubsidaryMasterByID?ID=" + id);
@@ -30,7 +30,7 @@ export default function SubsidaryMasterForm() {
         GetSubsidaryMaster();
 
     }, [1]);
-    
+
     function clearForm(userData = null) {
         let details = {
             "ID": userData ? userData.id : "",
@@ -40,15 +40,15 @@ export default function SubsidaryMasterForm() {
         reset(details);
         setActionType(userData ? "update" : 'insert')
     }
-    
+
     async function onSubmit(data) {
         if (actionType == "insert") {
             await axios.post(hostURL + "Master/InsertSubsidaryMaster", data);
-            alert("inserted");
+            Swal.fire('Data Inserted successfully')
         }
         else {
             await axios.post(hostURL + "Master/UpdateSubsidaryMaster", data);
-            alert("updated");
+            Swal.fire('Data Updated successfully')
         }
     }
 
@@ -67,48 +67,46 @@ export default function SubsidaryMasterForm() {
                     </div>
                     <br />
                     <div className={subsidaryform.card}>
-                        <div className="row leavereq">
-                            <div className="col-md-4 fw-bold">
-                                <label >Subsidiary<span className={subsidaryform.span}>*</span></label></div>
-                            <div className="col-md-4">
-                                <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label></div>
-                        </div>
-                        <br />
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="row leavereq">
-
+                            <div className="row">
                                 <div className="col-lg-4">
-                                    <input type="text"{...register('Name', {
+                                    <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label> <br />
+                                    <input type="text"  style={{ width: "100%", padding: "7px", borderRadius: "3px", marginTop: "10px" }} {...register('Name', {
                                         required: "Please add a Subsidiary Name", pattern: {
-                                            value: /^[A-Za-z0-9]+$/,
+                                            value: '^[A-Za-z0-9 ]+$',
                                             message: "Please enter a valid Subsidiary Name"
                                         }
-                                    })} placeholder="Subsidiary Name" name="Name" id="Name" className='' />
+                                    })} placeholder="Subsidiary Name" name="Name" id="Name" className={subsidaryform.fileds} />
                                     {errors.Name && <p className="error-message" style={{ color: "red" }}>{errors.Name.message}</p>}
+
                                 </div>
-                                <div className="col-lg-6">
-                                    <textarea name="Description" rows="3" cols="60" type="text"{...register('Description', {
+                                <div className="col-lg-1"></div>
+                                <div className="col-lg-7" style={{ marginBottom: "20px" }}>
+                                    <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label> <br />
+                                    <textarea style={{ marginTop: "10px" }} name="Description" rows="2" cols="70" type="text"{...register('Description', {
                                         required: "Please add a Description", pattern: {
-                                            value: /^[A-Za-z0-9]+$/,
+                                            value: '^[A-Za-z0-9 ]+$',
                                             message: "Please enter a Description"
                                         }
                                     })} placeholder='Description' />
-                                    <br></br>
                                     {errors.Description && <p className="error-message" style={{ color: "red" }}>{errors.Description.message}</p>}
+                                </div>
+                                <div className="col-lg-11 ">
+                                    <Link href="/Masters/subsidarymasterdashboard"><button className='btn btn-primary' style={{ float: "right", marginLeft: "5px" }} tabindex="0">CANCEL</button></Link>
                                     {
                                         actionType == "insert" && (
-                                            <button type='submit' className='btn btn-primary'>Save</button>
+                                            <button type='submit' className='btn btn-primary'   style={{ float: "right" }}>Save</button>
                                         )
                                     }
                                     {
                                         actionType == "update" && (
-                                            <button type='submit' className='btn btn-primary'>Update</button>
+                                            <button type='submit' className='btn btn-primary'  style={{ float: "right" }}>Update</button>
                                         )
                                     }
                                 </div>
                             </div>
-
                         </form>
+
                     </div>
                 </div>
             </div>

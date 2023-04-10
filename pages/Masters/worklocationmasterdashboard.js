@@ -11,14 +11,25 @@ const [workLocation, setWorkLocationData] = useState([]);
 
     useEffect(() => {
         async function getData() {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
           let res = await axios.get(
-            ""
+            hostURL +"Master/GetWorkingLocationMaster"
           );
-          setWorkLocationData();
+          setWorkLocationData(res.data);
         }
         getData();
       }, [1]);
 
+      const deleteWorkLocation = async (id) =>{
+        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        await axios.get(hostURL + "DeleteWorkingLocationMaster?ID=" + id);
+        let res = await axios.get(hostURL + "Master/GetWorkingLocationMaster");
+        setDashboardData(res.data);
+      }
+
+      const edit = async (id)=>{
+        sessionStorage.setItem("WorkLocationID", id);
+      }
     return (
         <Layout>
             <div>
@@ -48,21 +59,27 @@ const [workLocation, setWorkLocationData] = useState([]);
                         <thead>
                             <tr id={Styles.tr}>
 
-                                <th >Loan Type</th>
+                                <th >Short Name</th>
                                 <th >Description</th>
                                 <th >Action</th>
                             </tr>
                         </thead>
                         <tbody >
-                            <tr>
+                            {
+                                workLocation.map((data,index) => {
+                                    return (
+                                        <tr className="text-dark" key={index}>
+                                            <td>{data.short}</td>
+                                            <td>{data.description}</td>
+                                            <td>
+                                                <button onCLick={edit.bind(this,data.id)}>Edit</button>
+                                                <button onCLick={deleteWorkLocation.bind(this,data.id)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
 
-                                <td>Agriculture Loan</td>
-                                <td>This loan would be available for rearing all types of animals.</td>
-                                <td><span className='form-check form-switch  '>
-                                    <input id={Styles.input} className='form-check-input  ' type="checkbox" /> &nbsp;</span> </td>
-
-                            </tr>
-                           
                         </tbody>
                     </table>
                 </div>

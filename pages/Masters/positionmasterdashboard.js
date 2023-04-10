@@ -1,11 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import Styles from '../../styles/PositionMasterDash.module.css'
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import table from "../../styles/table.module.css";
 import Link from "next/link";
 import Layout from "@/Components/layout";
+import axios from "axios";
 function PositionMasterDash() {
+  const [positionMaster, setPositionMaster] = useState([]);
+
+  const getPositionMaster = async () => {
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    const { data } = await axios.get(hostURL + "Master/GetRoleType");
+    setPositionMaster(data)
+  }
+  useEffect(() => {
+    getPositionMaster();
+  }, [])
+
+
+  const handleDelete = async (id) => {
+    try {
+      let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+      const res = await axios.get(hostURL + `Master/DeleteRoleType?ID=${id}`);
+      console.log(res.data);
+      alert("Data deleted successfully");
+      getPositionMaster();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete data");
+    }
+  };
+
+  const getData = (data) => {
+    sessionStorage.setItem("id", data.id);
+    console.log(data.id)
+  }
+
+  const clearFormData = () => {
+    sessionStorage.setItem("id", "");
+  }
+
   return (
     <Layout>
       <br></br>
@@ -35,7 +70,7 @@ function PositionMasterDash() {
           <div className="col-lg-2"></div>
           <div className="col-lg-2">
 
-            <Link href="/Masters/positionmasterform"><button
+            <Link href="/Masters/positionmasterform"><button onClick={clearFormData.bind(this)}
 
               className="btn btn-primary btn-sm  shadow-lg"
               id={Styles.addNew}
@@ -56,34 +91,28 @@ function PositionMasterDash() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Admin</td>
-                  <td>Admin</td>
-                  <td>
-                    <div className="row">
-                      <div className="col-lg-2">
-                        <button id={Styles.actionBtn}>Edit</button>
-                      </div>
-                      <div className="col-lg-2">
-                        <button id={Styles.actionBtn}>Delete</button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>AHRSO</td>
-                  <td>Admin and HR Support Officer</td>
-                  <td>
-                    <div className="row">
-                      <div className="col-lg-2">
-                        <button id={Styles.actionBtn}>Edit</button>
-                      </div>
-                      <div className="col-lg-2">
-                        <button id={Styles.actionBtn}>Delete</button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                {positionMaster.map((data) => {
+                  return (
+                    <tr key={data.id}>
+                      <td>{data.short}</td>
+                      <td>{data.description}</td>
+                      <td>
+                        <div className="row">
+                          <div className="col-lg-2">
+                            <Link href="/Masters/positionmasterform">
+                              <button id={Styles.actionBtn} onClick={getData.bind(this, data)}>Edit</button>
+                            </Link>
+                          </div>
+                          <div className="col-lg-2">
+                            <button id={Styles.actionBtn} onClick={() => handleDelete(data.id)}>Delete</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })
+
+                }
               </tbody>
             </table>
           </div>

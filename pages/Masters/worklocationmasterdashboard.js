@@ -26,7 +26,9 @@ const [workLocation, setWorkLocationData] = useState([]);
         let res = await axios.get(hostURL + "Master/GetWorkingLocationMaster");
         setWorkLocationData(res.data);
       }
-
+      const clearSession = async ()=>{
+        sessionStorage.setItem("WorkLocationID","")
+      }
       const edit = async (id)=>{
         sessionStorage.setItem("WorkLocationID", id);
       }
@@ -49,7 +51,7 @@ const [workLocation, setWorkLocationData] = useState([]);
                 <div className='row mt-2'>
                     <div className='col-lg-10'></div>
                     <div className='col-lg-2 '>
-                        <Link href="/Masters/worklocationmasterform" id='AddButton' className='btn btn-primary fw-bold'>Add New</Link>
+                        <Link href="/Masters/worklocationmasterform" id='AddButton' onClick={clearSession} className='btn btn-primary fw-bold'>Add New</Link>
                     </div>
                 </div>
 

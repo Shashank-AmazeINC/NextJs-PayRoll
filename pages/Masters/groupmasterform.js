@@ -15,12 +15,16 @@ function GroupMasterForm() {
     async function onSubmit(data) {
         if (actionType == "insert") {
             await axios.post(hostURL + "Master/InsertGroupMaster", data);
+            location.href = "/Masters/groupmaster";
         }
         else {
             await axios.post(hostURL + "Master/UpdateGroupMaster", data);
+            sessionStorage.removeItem("groupMasterID");
+            location.href = "/Masters/groupmaster";
         }
       }
       useEffect(() => {
+        clearForm();
         ID = sessionStorage.getItem("groupMasterID");
             if(ID){
               getGroupMasterByID();
@@ -115,13 +119,13 @@ function GroupMasterForm() {
                 <div className="row ">
                   <div className="col-lg-6"></div>
                   <div className="col-lg-6">
-                    <button
+                    <Link href='/Masters/groupmaster'><button
                       type="button"
                       className="btn common-edit"
                       id={Styles.btn}
                     >
                       Close
-                    </button>
+                    </button></Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {actionType == "insert" && (
                       <button type="submit" className="btn" id={Styles.btn}>

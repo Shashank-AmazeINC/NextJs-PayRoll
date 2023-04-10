@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 import Layout from '@/Components/layout'
-import Styles from '../../styles/table.module.css';
 import { useEffect, useState } from "react";
+import Styles from '../../styles/WorkLocationMasterForm.module.css'
 import axios from "axios";
 
 function WorkLocationMasterDash() {
@@ -22,9 +22,9 @@ const [workLocation, setWorkLocationData] = useState([]);
 
       const deleteWorkLocation = async (id) =>{
         let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-        await axios.get(hostURL + "DeleteWorkingLocationMaster?ID=" + id);
+        await axios.get(hostURL + "Master/DeleteWorkingLocationMaster?ID=" + id);
         let res = await axios.get(hostURL + "Master/GetWorkingLocationMaster");
-        setDashboardData(res.data);
+        setWorkLocationData(res.data);
       }
 
       const edit = async (id)=>{
@@ -55,9 +55,9 @@ const [workLocation, setWorkLocationData] = useState([]);
 
                 <div className='row '>
 
-                    <table className=' table mt-3 table-striped ' id={Styles.table} >
-                        <thead>
-                            <tr id={Styles.tr}>
+                    <table className='table table-hover mt-4 ' >
+                        <thead className='bg-info text-white '>
+                            <tr>
 
                                 <th >Short Name</th>
                                 <th >Description</th>
@@ -72,8 +72,10 @@ const [workLocation, setWorkLocationData] = useState([]);
                                             <td>{data.short}</td>
                                             <td>{data.description}</td>
                                             <td>
-                                                <button onCLick={edit.bind(this,data.id)}>Edit</button>
-                                                <button onCLick={deleteWorkLocation.bind(this,data.id)}>Delete</button>
+                                            <Link href='/Masters/worklocationmasterform'>
+                                            <button id={Styles.editbtn} onClick={edit.bind(this,data.id)}>Edit</button>
+                                            </Link>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button id={Styles.editbtn} onClick={deleteWorkLocation.bind(this,data.id)}>Delete</button>
                                             </td>
                                         </tr>
                                     )

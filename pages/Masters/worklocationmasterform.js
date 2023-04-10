@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "../../styles/WorkLocationMasterForm.module.css";
 import { useForm } from "react-hook-form";
 import Layout from "@/Components/layout";
@@ -9,23 +9,35 @@ function WorkLocationMasterForm() {
   const [actionType, setActionType] = useState("insert");
   const { register, handleSubmit, reset, formState } = useForm();
   const { errors } = formState;
+  let ID 
+  let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
   async function onSubmit(data) {
-    console.log(data)
-    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
     if (actionType == "insert") {
+        sessionStorage.clear("WorkLocationID");
         await axios.post(hostURL + "Master/InsertWorkingLocationMaster", data);
     }
     else {
         await axios.post(hostURL + "Master/UpdateWorkingLocationMaster", data);
+        sessionStorage.clear("WorkLocationID");
     }
+    await axios.get(hostURL + "Master/GetWorkingLocationMaster" );
   }
 
-  const editWorkLocation = async (id) => {
-    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-    let res = await axios.get(hostURL + "Master/GetWorkingLocationMasterByID?ID=" + id);
+  useEffect(() => {
+    ID = sessionStorage.getItem("WorkLocationID");
+        if(ID){
+          getWorkLocationMasterByID();
+          
+        }
+  }, []);
+
+  const getWorkLocationMasterByID = async () => {
+    let res = await axios.get(hostURL + "Master/GetWorkingLocationMasterByID?ID=" + ID);
     clearForm(res.data[0]);
+
 }
+
   function clearForm(existingData = null) {
     let etty = {
         "ID": existingData ? existingData.id : "",  
@@ -72,12 +84,12 @@ const customStyles = {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row ">
                 <div className="col-lg-4">
-                  <input name="Short" class="form-control" type="text" {...register("Short", { required: true })} placeholder="Short Name"/>
+                  <input name="Short" className="form-control" type="text" {...register("Short", { required: true })} placeholder="Short Name"/>
                   <div>{errors.Short && <span style={customStyles.errorMsg}>Please enter short name</span>}</div>
                   
                 </div>
                 <div className="col-lg-4">
-                  <textarea name="Description" class="form-control" {...register("Description", { required: true })} placeholder="Description"/>
+                  <textarea name="Description" className="form-control" {...register("Description", { required: true })} placeholder="Description"/>
                   <div>{errors.Description && <span style={customStyles.errorMsg} >Please enter description</span>}</div>  
                 </div>
               </div>
@@ -85,8 +97,9 @@ const customStyles = {
               <div className="row ">
                 <div className="col-lg-6"></div>
                 <div className="col-lg-6">
-                      <button type='button' className='btn common-edit' id={Styles.btn}>Close</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <Link href='/Masters/worklocationmasterdashboard'>
+                        <button type='button' className='btn common-edit' id={Styles.btn}>Close</button></Link>
+                                
                                 {
                                     actionType == "insert" && (
                                         <button type='submit' className='btn' id={Styles.btn}>Save</button>
@@ -97,6 +110,7 @@ const customStyles = {
                                         <button type='submit' className='btn' id={Styles.btn} >Update</button>
                                     )
                                 }
+                                
                 </div>
               </div>
             </form>

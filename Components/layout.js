@@ -43,9 +43,9 @@ const  Layout=({ children })=> {
         setPageName(data);
     }
 
-    // if (isLogin == "yes") {
-    return (
-        <>
+    if (isLogin == "yes") {
+        return (
+        <div>
             <Head>
                 <title>Pay Roll</title>
             </Head>
@@ -65,16 +65,16 @@ const  Layout=({ children })=> {
                 </div>
             </div>
         </div>
-    )
-    // }
-    // else
-    //     return (
-    //         <div className='row'>
-    //             <div className='col-lg-12'>
-    //                 <Login></Login>
-    //             </div>
-    //         </div>
-    //     )
+        )
+    }
+    else
+        return (
+            <div className='row'>
+                <div className='col-lg-12'>
+                    <Login></Login>
+                </div>
+            </div>
+        )
 }
 
 

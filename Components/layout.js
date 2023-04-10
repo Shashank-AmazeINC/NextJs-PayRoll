@@ -19,10 +19,10 @@ const  Layout=({ children })=> {
             setILogin("no");
         }
         // setusernameName(sessionStorage.getItem("userName"));
-        let pn = sessionStorage.getItem("pageName");
-        if (pn) {
-            setPageName(pn);
-        }
+        // let pn = sessionStorage.getItem("pageName");
+        // if (pn) {
+        //     setPageName(pn);
+        // }
     }, []);
 
    const login = () => {
@@ -38,10 +38,10 @@ const  Layout=({ children })=> {
         location.href = "/";
     }
 
-    const changePageName = () =>{
-        sessionStorage.setItem("pageName", data);
-        setPageName(data);
-    }
+    // const changePageName = () =>{
+    //     sessionStorage.setItem("pageName", data);
+    //     setPageName(data);
+    // }
 
     if (isLogin == "yes") {
         return (
@@ -52,7 +52,7 @@ const  Layout=({ children })=> {
             <div className='container-fluid'>
                 <div className='row' style={{ overflowX: 'hidden' }}>
                     <div className='col-lg-12' style={{ height: '10vh' }}>
-                        <Header></Header>
+                        <Header  makelogout={logout}></Header>
                     </div>
                 </div>
                 <div className='row'>
@@ -71,7 +71,7 @@ const  Layout=({ children })=> {
         return (
             <div className='row'>
                 <div className='col-lg-12'>
-                    <Login></Login>
+                    <Login makelogin={login}></Login>
                 </div>
             </div>
         )

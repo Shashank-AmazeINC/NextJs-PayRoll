@@ -5,16 +5,17 @@ import Layout from '@/Components/layout'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import Swal from 'sweetalert2'
 
 export default function SubsidaryMasterDash() {
 
     const [SubsidaryMaster, setSubsidaryMaster] = useState([]);
     const [keyword, setKeyword] = useState("");
 
+    
+    const hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
     const getSubsidaryMaster = async () => {
-        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
         let res = await axios.get(hostURL + "Master/GetSubsidaryMaster");
         setSubsidaryMaster(res.data);
     }
@@ -33,14 +34,13 @@ export default function SubsidaryMasterDash() {
 
     const handleDelete = async (id) => {
         try {
-            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
             let res = await axios.get(hostURL + `Master/DeleteSubsidaryMaster?id=${id}`);
             console.log(res.data);  
-            alert("Data deleted successfully");
+            Swal.fire('Data deleted successfully')
             getSubsidaryMaster();
         } catch (error) {
             console.error(error);
-            alert("Failed to delete data");
+            Swal.fire('failed to  delete data')
         }
     };
 

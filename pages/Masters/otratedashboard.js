@@ -1,16 +1,61 @@
 import Link from 'next/link'
 import React from 'react'
+import { useEffect, useState } from 'react';
 import Styles from '../../styles/OTRateDash.module.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Layout from '@/Components/layout'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 function OTRateDash() {
+    const [otDetails, setOtDetails] = useState([]);
+    const getOtdetails = async () => {
+        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        const res = await axios.get(hostURL + "Master/GetOTRates");
+        setOtDetails(res.data);
+    }
+
+    useEffect(() => {
+        getOtdetails()
+    }, [1])
+
+
+    const getData = (data) => {
+        sessionStorage.setItem("id", data.id);
+    }
+    const clearData = () => {
+        sessionStorage.setItem("id", "");
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+            const res = await axios.get(hostURL + `Master/DeleteOTRates?id=${id}`);
+            console.log(res.data);
+            alert('Data deleted');
+            Swal.fire({
+                icon: "success",
+                title: "Hurray..",
+                text: "Data was Deleted...!",
+            });
+            getOtdetails();
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops..",
+                text: "Data was Not Deleted...!",
+            });
+        }
+    };
+   
+
+
     return (
         <Layout>
             <div>
                 <br /><br />
                 <p id={Styles.p}>OT Master</p>
-
-
                 <div className='container-fluid'>
                     <div className='card p-4'>
                         <div className='row'>
@@ -18,86 +63,57 @@ function OTRateDash() {
                                 <p>Filter by</p>
                             </div>
                             <div className='col-lg-4'>
-                                <input type={"tezt"} placeholder="Search" className='form-control form-control-sm' />
+                                <input type="text" placeholder="Search" className='form-control form-control-sm' />
                             </div>
                             <div className='col-lg-7'></div>
                         </div>
                     </div>
-
-                </div>
-
-
-
-                <div className='row mt-3'>
-                    <div className='col-lg-10'></div>
-                    <div className='col-lg-2'>
-
-                        <button id={Styles.addButton}> <Link id={Styles.addLink} href="/Masters/otmaster"> <AiOutlinePlusCircle id={Styles.icon} size={18} /> ADD New</Link></button>
-
+                    <div className='row mt-3'>
+                        <div className='col-lg-10'></div>
+                        <div className='col-lg-2'>
+                            <button id={Styles.addButton} onClick={clearData.bind(this)}> <Link id={Styles.addLink} href="/Masters/otmaster"> <AiOutlinePlusCircle id={Styles.icon} size={18} /> ADD New</Link></button>
+                        </div>
                     </div>
 
+                    <div className='row '>
+                        <div className='col-lg-12'>
+                            <table className='table table-bordered mt-3 text-center table-striped ' id={Styles.table}>
+                                <thead>
+                                    <tr id={Styles.tr}>
+                                        <th className='text-white'>Day</th>
+                                        <th className='text-white'>	Normal</th>
+                                        <th className='text-white'>	OT </th>
+                                        <th className='text-white'>ND</th>
+                                        <th className='text-white'>NDOT</th>
+                                        <th className='text-white'>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {
+                                        otDetails.map((data, index) => {
+                                            return (
+                                                <tr className="text-dark" key={index}>
+                                                    <td>{data.day}</td>
+                                                    <td>{data.normal}</td>
+                                                    <td>{data.ot}</td>
+                                                    <td>{data.nd}</td>
+                                                    <td>{data.ndot}</td>
+                                                    <td>
+                                                        <Link href="/Masters/otmaster">
+                                                            <button id={Styles.actionButton} onClick={getData.bind(this, data)}>Edit</button>
+                                                        </Link>
+                                                        {/* &nbsp; &nbsp; &nbsp; */}
+                                                        <button id={Styles.actionButton} onClick={() => handleDelete(data.id)}>Delete</button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
-                <div className='row '>
-
-
-                    <table className='table table-bordered mt-3 text-center table-striped ' id={Styles.table}>
-                        <thead>
-                            <tr id={Styles.tr}>
-                                <th className='text-white'>Overtime Code	</th>
-                                <th className='text-white'>	Description</th>
-                                <th className='text-white'>	Permanant Employee</th>
-                                <th className='text-white'>Probationary Employee</th>
-                                <th className='text-white'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody >
-                            <tr>
-                                <td  >Asti Business Services Inc. (ABSI)	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td ><button id={Styles.actionButton}>Delete</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                                    <button id={Styles.actionButton}>Edit</button>
-                                </td>
-                            </tr>
-                            <tr >
-                                <td >BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc. (BRAD)	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc. (BRAD)	</td>
-                                <td >BRAD Warehouse and Logistics Services Inc. (BRAD)	</td>
-                                <td >
-                                    <button id={Styles.actionButton}  >Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Edit</button>
-                                </td>
-                            </tr>
-                            <tr >
-                                <td >Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td >Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td >Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td >Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td >
-                                    <button id={Styles.actionButton}  >Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Edit</button>
-                                </td>
-                            </tr>
-                            <tr >
-                                <td >HCX Technology Partners Inc.	</td>
-                                <td >HCX Technology Partners Inc.	</td>
-                                <td >HCX Technology Partners Inc.	</td>
-                                <td >HCX Technology Partners Inc.	</td>
-                                <td >
-                                    <button id={Styles.actionButton}  >Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Edit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-
             </div>
         </Layout>
 

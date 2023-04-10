@@ -4,27 +4,39 @@ import Layout from '@/Components/layout'
 import { useEffect, useState } from "react";
 import Styles from '../../styles/WorkLocationMasterForm.module.css'
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 function WorkLocationMasterDash() {
 
 const [workLocation, setWorkLocationData] = useState([]);
+let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
     useEffect(() => {
-        async function getData() {
-            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-          let res = await axios.get(
-            hostURL +"Master/GetWorkingLocationMaster"
-          );
-          setWorkLocationData(res.data);
-        }
         getData();
-      }, [1]);
-
-      const deleteWorkLocation = async (id) =>{
-        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-        await axios.get(hostURL + "Master/DeleteWorkingLocationMaster?ID=" + id);
-        let res = await axios.get(hostURL + "Master/GetWorkingLocationMaster");
+      }, []);
+      
+      async function getData() {
+        let res = await axios.get(
+          hostURL +"Master/GetWorkingLocationMaster"
+        );
         setWorkLocationData(res.data);
+      }
+      const deleteWorkLocation = async (id) =>{
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result) {
+            axios.get(hostURL + "Master/DeleteWorkingLocationMaster?ID=" + id);
+            getData()
+          }
+        });
+        
       }
       const clearSession = async ()=>{
         sessionStorage.setItem("WorkLocationID","")

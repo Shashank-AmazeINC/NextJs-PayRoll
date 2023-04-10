@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Layout from "@/Components/layout";
 import Link from "next/link";
 import axios from "axios";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 function WorkLocationMasterForm() {
   const [actionType, setActionType] = useState("insert");
@@ -16,16 +16,16 @@ function WorkLocationMasterForm() {
   async function onSubmit(data) {
     if (actionType == "insert") {
         await axios.post(hostURL + "Master/InsertWorkingLocationMaster", data);
-        // Swal.fire(
-        //   'Added succesfullly'
-        // );
+        Swal.fire(
+          'Added succesfullly'
+        );
         location.href = "/Masters/worklocationmasterdashboard";
     }
     else {
         await axios.post(hostURL + "Master/UpdateWorkingLocationMaster", data);
-        // Swal.fire(
-        //   "Updated succesfullly"
-        // );
+        Swal.fire(
+          "Updated succesfullly"
+        );
         sessionStorage.removeItem("WorkLocationID");
         location.href = "/Masters/worklocationmasterdashboard";
     }

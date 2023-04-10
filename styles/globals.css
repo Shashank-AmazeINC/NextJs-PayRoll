@@ -1,4 +1,4 @@
-#AddButton {
+.AddButton {
     width: 85%;
     font-size: 15px;
     cursor: pointer;
@@ -6,6 +6,7 @@
     box-shadow: 1px 1px 17px 1px #3247d599;
     text-transform: uppercase;
     background: #3247d5;
+    color: white;
 }
 
 .Heading {

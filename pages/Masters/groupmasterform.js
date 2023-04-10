@@ -4,7 +4,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import Layout from '@/Components/layout';
 import Styles from '../../styles/groupMasterForm.module.css'
-
+import Swal from 'sweetalert2'
 function GroupMasterForm() {
     const [actionType, setActionType] = useState("insert");
     const { register, handleSubmit, reset, formState } = useForm();
@@ -15,12 +15,18 @@ function GroupMasterForm() {
     async function onSubmit(data) {
         if (actionType == "insert") {
             await axios.post(hostURL + "Master/InsertGroupMaster", data);
+            Swal.fire('Added Successfully')
+            location.href = "/Masters/groupmaster";
         }
         else {
             await axios.post(hostURL + "Master/UpdateGroupMaster", data);
+            Swal.fire('Updated Successfully')
+            sessionStorage.removeItem("groupMasterID");
+            location.href = "/Masters/groupmaster";
         }
       }
       useEffect(() => {
+        clearForm();
         ID = sessionStorage.getItem("groupMasterID");
             if(ID){
               getGroupMasterByID();
@@ -115,13 +121,13 @@ function GroupMasterForm() {
                 <div className="row ">
                   <div className="col-lg-6"></div>
                   <div className="col-lg-6">
-                    <button
+                    <Link href='/Masters/groupmaster'><button
                       type="button"
                       className="btn common-edit"
                       id={Styles.btn}
                     >
                       Close
-                    </button>
+                    </button></Link>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {actionType == "insert" && (
                       <button type="submit" className="btn" id={Styles.btn}>

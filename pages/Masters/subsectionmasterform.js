@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SubsectionFormStyles from "../../styles/SubSectionMasterForm.module.css";
 import Link from "next/link";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const SubSectionMasterForm = () => {
   let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
@@ -33,12 +34,14 @@ const SubSectionMasterForm = () => {
   const onSubmit = async (data) => {
     debugger;
     console.log(data);
-    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
     if (actionType == "insert") {
       await axios.post(hostURL + "Master/InsertSubSectionMaster", data);
+      Swal.fire("SubSectionMaster Inserted succefully!");
+      location.href = "/Masters/subsectionmaster";
     } else {
-      await axios.post(hostURL + "Master/UpdateSubSectionMaster", data);
+      let res = await axios.post(hostURL + "Master/UpdateSubSectionMaster", data);
       sessionStorage.removeItem("id");
+      Swal.fire("SubSectionMaster updated succefully!");
       location.href = "/Masters/subsectionmaster";
     }
   };

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 import leaveform from '../../styles/LeaveTypeForm.module.css'
+import Layout from '@/Components/layout';
 function LeaveTypeForm() {
 
     // new Swal({
@@ -14,15 +15,15 @@ function LeaveTypeForm() {
     // });
 
     // form validation rules 
- 
+
     // get functions to build form with useForm() hook
     const { register, handleSubmit, reset, formState } = useForm();
     const { errors } = formState;
 
-    
+
 
     return (
-        <div>
+        <Layout>
             <div className="container-fluid">
                 <div className={leaveform.row}>
                     <div className="col-lg-2">
@@ -47,7 +48,7 @@ function LeaveTypeForm() {
                                 </label>
                             </div>
                         </div>
-                        <br/>
+                        <br />
                         <div className="row leavereq">
                             <div className="col-md-2">
                                 <input name="LeaveType" type="text" {...register('LeaveType')} placeholder='Leave Type' className={`form-control ${errors.LeaveType ? 'is-invalid' : ''}`} />
@@ -65,10 +66,10 @@ function LeaveTypeForm() {
                             </div>
                             <div className="col-lg-2">
                                 <Link id={leaveform.link} href="/Masters/LeaveTypeDashboard"> <button className={leaveform.button} tabindex="0">
-                                Cancel</button></Link>
+                                    Cancel</button></Link>
                             </div>
                             <div className="col-lg-2">
-                             
+
                                 <button class={leaveform.button} >
                                     SUBMIT
                                 </button>
@@ -79,7 +80,7 @@ function LeaveTypeForm() {
 
             </div>
 
-        </div>
+        </Layout>
     )
 }
 

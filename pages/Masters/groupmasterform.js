@@ -37,6 +37,7 @@ function GroupMasterForm() {
     }
 
     function clearForm(existingData = null) {
+       id = sessionStorage.getItem("id");
         let etty = {
             "ID": existingData ? existingData.id : "",  
             "Short": existingData ? existingData.short : "",

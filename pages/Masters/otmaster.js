@@ -61,7 +61,7 @@ function Otmaster() {
         text: "Data was updated...!",
       });
       <Link href="/Masters/otratedashboard"></Link>
-     
+
     }
   }
 
@@ -85,45 +85,38 @@ function Otmaster() {
                   <div className="row">
                     <div className="col-md-4">
                       <label > Day<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="day" className='form-control' {...register("Day", { required: true })} />
+                      <input type="text" name="day" className='form-control' {...register("Day", {
+                        required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter a valid Day" }
+                      })} />
+                      {errors.Day && <p className="error-message" style={{ color: "red" }}>{errors.Day.message}</p>}
                     </div>
                     <div className="col-md-4">
                       <label > Normal<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="normal" className='form-control' {...register("Normal", { required: true })} />
+                      <input type="text" name="normal" className='form-control' {...register("Normal", {
+                        required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter valid Details" }
+                      })} />
+                      {errors.Normal && <p className="error-message" style={{ color: "red" }}>{errors.Normal.message}</p>}
                     </div>
                     <div className="col-md-4">
                       <label > OT<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="ot" className='form-control' {...register("OT", { required: true })} />
+                      <input type="text" name="ot" className='form-control' {...register("OT", {
+                        required: "This field is required", pattern: { value: '^[0-9 .]+$', message: "Please enter valid Details" }
+                      })} />
+                      {errors.OT && <p className="error-message" style={{ color: "red" }}>{errors.OT.message}</p>}
                     </div>
                     <div className="col-md-4">
                       <label > ND<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="nd" className='form-control' {...register("ND", { required: true })} />
+                      <input type="text" name="nd" className='form-control' {...register("ND", {
+                        required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter valid Details" }
+                      })} />
+                      {errors.ND && <p className="error-message" style={{ color: "red" }}>{errors.ND.message}</p>}
                     </div>
                     <div className="col-md-4">
                       <label > NDOT<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="ndot" className='form-control' {...register("NDOT", { required: true })} />
-                    </div>
-                  </div>
-                  <div className="row leavereq">
-                    <div className="col-md-4">
-                      {/* <input type="text" placeholder="Day" name="Name" id="Name" className={`form-control ${errors.Name ? 'is-invalid' : ''}`} /> */}
-                      <div className="invalid-feedback">{errors.Day?.message}</div>
-                    </div>
-                    <div className="col-md-4">
-                      {/* <input type="text" placeholder="Normal" name="Normal" id="Normal" className={`form-control ${errors.Normal ? 'is-invalid' : ''}`} /> */}
-                      <div className="invalid-feedback">{errors.Normal?.message}</div>
-                    </div>
-                    <div className="col-md-4">
-                      {/* <input type="text" placeholder="OT" name="OT" id="OT" className={`form-control ${errors.OT ? 'is-invalid' : ''}`} /> */}
-                      <div className="invalid-feedback">{errors.OT?.message}</div>
-                    </div>
-                    <div className="col-md-4">
-                      {/* <input type="text" placeholder="ND" name="ND" id="ND" className={`form-control ${errors.ND ? 'is-invalid' : ''}`} /> */}
-                      <div className="invalid-feedback">{errors.ND?.message}</div>
-                    </div>
-                    <div className="col-md-4">
-                      {/* <input type="text" placeholder="NDOT" name="NDOT" id="NDOT" className={`form-control ${errors.NDOT ? 'is-invalid' : ''}`} /> */}
-                      <div className="invalid-feedback">{errors.NDOT?.message}</div>
+                      <input type="text" name="ndot" className='form-control' {...register("NDOT", {
+                        required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter valid Details"}
+                      })} />
+                      {errors.NDOT && <p className="error-message" style={{ color: "red" }}>{errors.NDOT.message}</p>}
                     </div>
                   </div>
                   <br />

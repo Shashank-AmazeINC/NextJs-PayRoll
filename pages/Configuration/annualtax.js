@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useEffect } from 'react'
 function annualtax() {
-    
+
     return (
         <div className='container'>
             <h3 className='text-primary fs-4 mt-3'>Annual Tax Configuration</h3>
@@ -42,8 +42,8 @@ function annualtax() {
 
                     <tbody>
                         {
-                            annualTax.map((data,index)=>{
-                                return(
+                            annualTax.map((data, index) => {
+                                return (
                                     <tr key={index}>
                                         <td>{data.taxlowlevellimit}</td>
                                         <td>{data.taxhighlevellimit}</td>

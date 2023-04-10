@@ -14,7 +14,7 @@ let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
     useEffect(() => {
         getData();
       }, []);
-      
+
       async function getData() {
         let res = await axios.get(
           hostURL +"Master/GetWorkingLocationMaster"
@@ -53,26 +53,22 @@ let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
                         <div className='col-lg-1'>
                             <p>Filter By</p>
                         </div>
-
                         <div className='col-lg-5'>
                             <input type="text" className='form-control' placeholder='Search...' />
                         </div>
                     </div>
                 </div>
-
                 <div className='row mt-2'>
                     <div className='col-lg-10'></div>
                     <div className='col-lg-2 '>
                         <Link href="/Masters/worklocationmasterform" id='AddButton' onClick={clearSession} className='btn btn-primary fw-bold'>Add New</Link>
                     </div>
                 </div>
-
                 <div className='row '>
 
                     <table className='table table-hover mt-4 ' >
                         <thead className='bg-info text-white '>
                             <tr>
-
                                 <th >Short Name</th>
                                 <th >Description</th>
                                 <th >Action</th>

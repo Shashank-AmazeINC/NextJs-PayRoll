@@ -2,40 +2,31 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios';
 import Layout from '@/Components/layout';
-
+import Styles from '../../styles/GroupMaster.module.css'
 function GroupMaster() {
 
-    let [GroupData, getData] = useState([]);
-
-
-    const DeleteGroupData = async (id) => {
-        try {
-            const deleteData = await axios.get("http://localhost:4199/Master/DeleteDroup?ID=" + id);
-            alert("Deleted...!!")
-            getGroupData();
-        } catch (error) {
-            alert("do it again....!!!")
-        }
-    }
-
-    const getGroupData = async () => {
-        const { data } = await axios.get("http://localhost:4199/Master/GetGroupMaster")
-        console.log(data)
-        getData(data)
-    }
-
-    const getGroupTax = (data) => {
-        console.log(data)
-        sessionStorage.setItem("id", data.id);
-    }
-
-    const resetID = () => {
-        sessionStorage.setItem("id", "");
-    }
+    const [groupMaster, setGroupMasterData] = useState([]);
 
     useEffect(() => {
-        getGroupData();
-    }, [])
+        async function getData() {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+          let res = await axios.get(
+            hostURL +"Master/GetGroupMaster"
+          );
+          setGroupMasterData(res.data);
+        }
+        getData();
+      }, [1]);
+
+    const deleteGroupData = async (id) => {
+        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        await axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
+        let res = await axios.get(hostURL + "Master/GetGroupMaster");
+        setGroupMasterData(res.data);
+    }
+    const edit = async (id)=>{
+        sessionStorage.setItem("groupMasterID", id);
+      }
 
     return (
         <Layout>
@@ -58,8 +49,8 @@ function GroupMaster() {
                     </div>
                     <div className='col-lg-8'></div>
                     <div className='col-lg-2 mt-2 text-end'>
-                        <Link href="/Masters/groupmasterform" id='AddButton' className='btn btn-primary'>
-                            <button onClick={resetID.bind()} >Add</button>
+                        <Link href="/Masters/groupmasterform" id='AddButton' className='btn btn-primary fw-bold'>
+                            Add
                         </Link>
                     </div>
                 </div>
@@ -74,16 +65,16 @@ function GroupMaster() {
                     </thead>
                     <tbody>
                         {
-                            GroupData.map((data) => {
+                            groupMaster.map((data,index) => {
                                 return (
-                                    <tr key={data.id}>
+                                    <tr key={index}>
                                         <td>{data.short}</td>
                                         <td>{data.description}</td>
                                         <td>
                                             <Link href='/Masters/groupmasterform'>
-                                                <button onClick={getGroupTax.bind(this, data)} >Edit</button>
-                                            </Link>
-                                            <button onClick={DeleteGroupData.bind(this, data.id)}>Delete</button>
+                                                <button onClick={edit.bind(this, data.id)} id={Styles.editbtn}>Edit</button> 
+                                            </Link>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button onClick={deleteGroupData.bind(this, data.id)} id={Styles.editbtn}>Delete</button>
                                         </td>
                                     </tr>
                                 )

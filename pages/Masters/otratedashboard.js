@@ -32,7 +32,6 @@ function OTRateDash() {
             let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
             const res = await axios.get(hostURL + `Master/DeleteOTRates?id=${id}`);
             console.log(res.data);
-            alert('Data deleted');
             Swal.fire({
                 icon: "success",
                 title: "Hurray..",
@@ -54,7 +53,6 @@ function OTRateDash() {
     return (
         <Layout>
             <div>
-                <br /><br />
                 <p id={Styles.p}>OT Master</p>
                 <div className='container-fluid'>
                     <div className='card p-4'>
@@ -68,7 +66,7 @@ function OTRateDash() {
                             <div className='col-lg-7'></div>
                         </div>
                     </div>
-                    <div className='row mt-3'>
+                    <div className='row mt-4'>
                         <div className='col-lg-10'></div>
                         <div className='col-lg-2'>
                             <button id={Styles.addButton} onClick={clearData.bind(this)}> <Link id={Styles.addLink} href="/Masters/otmaster"> <AiOutlinePlusCircle id={Styles.icon} size={18} /> ADD New</Link></button>
@@ -77,7 +75,7 @@ function OTRateDash() {
 
                     <div className='row '>
                         <div className='col-lg-12'>
-                            <table className='table table-bordered mt-3 text-center table-striped ' id={Styles.table}>
+                            <table className='table table-bordered mt-4 text-center table-striped ' id={Styles.table}>
                                 <thead>
                                     <tr id={Styles.tr}>
                                         <th className='text-white'>Day</th>
@@ -102,7 +100,7 @@ function OTRateDash() {
                                                         <Link href="/Masters/otmaster">
                                                             <button id={Styles.actionButton} onClick={getData.bind(this, data)}>Edit</button>
                                                         </Link>
-                                                        {/* &nbsp; &nbsp; &nbsp; */}
+                                                        &nbsp; &nbsp; &nbsp;
                                                         <button id={Styles.actionButton} onClick={() => handleDelete(data.id)}>Delete</button>
                                                     </td>
                                                 </tr>

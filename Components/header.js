@@ -5,7 +5,7 @@ import Notification from '../public/notification.png'
 import HeaderStyles from './header.module.css'
 
 
-function Header({children }) {
+const Header = ({ makelogout }) => {
     return (
         <div className={'row '} style={{ background: "#6610f2" }}>
             <div className='col-lg-2 m-2'>
@@ -23,7 +23,7 @@ function Header({children }) {
             </div>
 
             <div className='col-lg-2 mt-3 text-end text-white'>
-                <h4>logout</h4>
+                <h4 onClick={makelogout}>logout</h4>
             </div>
 
         </div>

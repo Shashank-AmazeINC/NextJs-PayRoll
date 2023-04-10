@@ -2,14 +2,55 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import subsidaryform from '../../styles/SubsidaryMasterForm.module.css'
 import Link from 'next/link';
-import Layout from '@/Components/layout';
-function SubsidaryMasterForm() {
-    // form validation rules 
+import Layout from '@/Components/layout'
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
-    // get functions to build form with useForm() hook
-    const { register, handleSubmit, reset, formState } = useForm();
-    const { errors } = formState;
+export default function SubsidaryMasterForm() {
 
+    const hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+
+    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+
+    const [actionType, setActionType] = useState("insert");
+
+    useEffect(() => {
+        async function GetSubsidaryMaster() {
+            const id = sessionStorage.getItem("id");
+            if (id) {
+                const response = await axios.get(hostURL + "Master/GetSubsidaryMasterByID?ID=" + id);
+                clearForm(response.data[0])
+
+            }
+            else {
+                clearForm();
+            }
+        }
+        GetSubsidaryMaster();
+
+    }, [1]);
+
+    function clearForm(userData = null) {
+        let details = {
+            "ID": userData ? userData.id : "",
+            "Name": userData ? userData.name : "",
+            "Description": userData ? userData.description : "",
+        }
+        reset(details);
+        setActionType(userData ? "update" : 'insert')
+    }
+
+    async function onSubmit(data) {
+        if (actionType == "insert") {
+            await axios.post(hostURL + "Master/InsertSubsidaryMaster", data);
+            Swal.fire('Data Inserted successfully')
+        }
+        else {
+            await axios.post(hostURL + "Master/UpdateSubsidaryMaster", data);
+            Swal.fire('Data Updated successfully')
+        }
+    }
 
     return (
         <Layout>
@@ -26,41 +67,50 @@ function SubsidaryMasterForm() {
                     </div>
                     <br />
                     <div className={subsidaryform.card}>
-                        <form >
-                            <div className="row leavereq">
-                                <div className="col-md-3 fw-bold">
-                                    <label >Subsidiary<span className={subsidaryform.span}>*</span></label></div>
-                                <div className="col-md-4">
-                                    <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label></div>
-                            </div>
-                            <br />
-                            <div className="row leavereq">
-                                <div className="col-md-3">
-                                    <input type="text"{...register('Name')} placeholder="Subsidiary Name" name="Name" id="Name" className={`form-control ${errors.Name ? 'is-invalid' : ''}`} />
-                                    <div className="invalid-feedback">{errors.Name?.message}</div>
-                                </div>
-                                <div className="col-md-4">
-                                    <textarea name="Description" rows="3" type="text"{...register('Description')} placeholder='Description' className={`form-control ${errors.Description ? 'is-invalid' : ''}`} />
-                                    <div className="invalid-feedback">{errors.Description?.message}</div>
-                                </div>
-                            </div>
-                            <br />
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="row">
-                                <div className="col-lg-7">
+                                <div className="col-lg-4">
+                                    <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label> <br />
+                                    <input type="text"  style={{ width: "100%", padding: "7px", borderRadius: "3px", marginTop: "10px" }} {...register('Name', {
+                                        required: "Please add a Subsidiary Name", pattern: {
+                                            value: '^[A-Za-z0-9 ]+$',
+                                            message: "Please enter a valid Subsidiary Name"
+                                        }
+                                    })} placeholder="Subsidiary Name" name="Name" id="Name" className={subsidaryform.fileds} />
+                                    {errors.Name && <p className="error-message" style={{ color: "red" }}>{errors.Name.message}</p>}
+
                                 </div>
-                                <div className="col-lg-2">
-                                    <Link href="/Masters/subsidarymasterdashboard"> <button className={subsidaryform.button}>CANCEL</button></Link>
+                                <div className="col-lg-1"></div>
+                                <div className="col-lg-7" style={{ marginBottom: "20px" }}>
+                                    <label className='fw-bold' >Subsidiary Description<span className={subsidaryform.span}>*</span></label> <br />
+                                    <textarea style={{ marginTop: "10px" }} name="Description" rows="2" cols="70" type="text"{...register('Description', {
+                                        required: "Please add a Description", pattern: {
+                                            value: '^[A-Za-z0-9 ]+$',
+                                            message: "Please enter a Description"
+                                        }
+                                    })} placeholder='Description' />
+                                    {errors.Description && <p className="error-message" style={{ color: "red" }}>{errors.Description.message}</p>}
                                 </div>
-                                <div className="col-lg-2"><button className={subsidaryform.button}>SUBMIT</button>
+                                <div className="col-lg-11 ">
+                                    <Link href="/Masters/subsidarymasterdashboard"><button className='btn btn-primary' style={{ float: "right", marginLeft: "5px" }} tabindex="0">CANCEL</button></Link>
+                                    {
+                                        actionType == "insert" && (
+                                            <button type='submit' className='btn btn-primary'   style={{ float: "right" }}>Save</button>
+                                        )
+                                    }
+                                    {
+                                        actionType == "update" && (
+                                            <button type='submit' className='btn btn-primary'  style={{ float: "right" }}>Update</button>
+                                        )
+                                    }
                                 </div>
                             </div>
-                            <br />
-                        </form> </div>
-                </div>
+                        </form>
 
+                    </div>
+                </div>
             </div>
-        </Layout>
+        </Layout >
     )
 }
 
-export default SubsidaryMasterForm

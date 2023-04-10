@@ -1,11 +1,33 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Link from 'next/link'
 import Layout from '@/Components/layout'
+import axios from 'axios'
 
 function LevelTypeDash() {
+
+    let [dashboard, setDashboardData] = useState([])
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    const getLevelType = async () => {     
+        const  res  = await axios.get(hostURL + "Master/GetLevelType")
+        console.log(res.data)
+        setDashboardData(res.data)
+    }
+
+    const getID = (data) =>{
+        sessionStorage.setItem("id",data.id)
+    }
+
+    const deleteLevelType = async(id) =>{
+        await axios.get(hostURL + "Master/DeleteLevelType?ID=" + id)
+        getLevelType();
+    }
+
+    useEffect(() => {
+        getLevelType();
+    }, [1])
     return (
         <Layout>
-            <div>
+            <div className='container'>
                 <h3 className='text-primary fs-5 mt-3'>Job Level Type</h3>
                 <div className='card p-3 border-0 shadow-lg rounded-3 mt-4'>
                     <div className='row p-3'>
@@ -24,11 +46,11 @@ function LevelTypeDash() {
                 </div>
                 <div className='row mt-3'>
                     <div className='col-lg-2 text-primary fs-6 fw-bold'>
-                        <h6>SHOWING RESULTS</h6>
+                        <h6>SHOWING {dashboard.length} RESULTS</h6>
                     </div>
                     <div className='col-lg-8'></div>
                     <div className='col-lg-2 mt-2 text-end'>
-                        <Link href="/Masters/leveltypeform" id='AddButton' className='btn btn-primary'>Add New</Link>
+                        <Link href="/Masters/leveltypeform" className='btn btn-primary AddButton'>Add New</Link>
                     </div>
 
                     <table className='table table-hover mt-4 '>
@@ -39,6 +61,22 @@ function LevelTypeDash() {
                                 <th>Actions</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            {
+                                dashboard.map((data)=>{
+                                    return(
+                                        <tr key={data.id}>
+                                            <td>{data.short}</td>
+                                            <td>{data.description}</td>
+                                            <td>
+                                                <button className='btn btn-primary mx-3' onClick={getID.bind(this,data)}>Edit</button>
+                                                <button className='btn btn-primary ' onClick={deleteLevelType.bind(this,data.id)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -1,60 +1,152 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from "react-hook-form";
 import Link from 'next/link';
-import useParams from 'react-router-dom';
 import axios from 'axios';
-import { get } from 'react-hook-form';
 import Layout from '@/Components/layout';
+import Styles from '../../styles/groupMasterForm.module.css'
+
 function GroupMasterForm() {
+    const [actionType, setActionType] = useState("insert");
+    const { register, handleSubmit, reset, formState } = useForm();
+    const { errors } = formState;
+    let ID 
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    
+    async function onSubmit(data) {
+        if (actionType == "insert") {
+            await axios.post(hostURL + "Master/InsertGroupMaster", data);
+            location.href = "/Masters/groupmaster";
+        }
+        else {
+            await axios.post(hostURL + "Master/UpdateGroupMaster", data);
+            sessionStorage.removeItem("groupMasterID");
+            location.href = "/Masters/groupmaster";
+        }
+      }
+      useEffect(() => {
+        clearForm();
+        ID = sessionStorage.getItem("groupMasterID");
+            if(ID){
+              getGroupMasterByID();
+            }
+      }, []);
 
-
-    let [Name, getName] = useState("");
-    let [Des, getDes] = useState("");
-    const id = sessionStorage.getItem("id");
-
-    const getData = async () => {
-        const res = await axios.get("http://localhost:4199/Master/GetGroupMasterByID?ID=" + id)
-        console.log(res.data)
-        getName(res.data[0].short)
-        getDes(res.data[0].description)
+      const getGroupMasterByID = async (id) => {
+        let res = await axios.get(hostURL + "Master/GetGroupMasterByID?ID=" + ID);
+        clearForm(res.data[0]);
     }
 
-    useEffect(() => {
-        if (id) {
-            getData();
+    function clearForm(existingData = null) {
+       id = sessionStorage.getItem("id");
+        let etty = {
+            "ID": existingData ? existingData.id : "",  
+            "Short": existingData ? existingData.short : "",
+            "Description": existingData ? existingData.description : "",
         }
-    })
+        reset(etty);
+        setActionType(existingData ? "update" : 'insert');
+    }
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width: '60%'
+        },
+        errorMsg: {
+            fontSize: '12px',
+            fontWeight: '500',
+            color: 'red'
+        },
+        inputLabel: {
+            fontSize: '16px'
+        }
+      }; 
+
     return (
-
-        <Layout>
-
-            <div>
-                <h3 className='text-primary fs-5 mt-3'>Group Master</h3>
-                <div className='card p-3 border-0 shadow-lg rounded-3 mt-4'>
-                    <div className='row'>
-                        <div className='col-lg-2'>
-                            <p>Name<i className='text-danger'>*</i></p>
-                            <input type="text" className='form-control' placeholder='Name' value={Name} />
-                        </div>
-
-                        <div className='col-lg-5'>
-                            <p>Description<i className='text-danger'>*</i></p>
-                            <textarea className='form-control' placeholder='Description' value={Des} ></textarea>
-                        </div>
-                    </div>
-
-                    <div className='row mt-5'>
-                        <div className='col-lg-8'></div>
-                        <div className='col-lg-2  text-end'>
-                            <Link href='/Masters/GroupMaster'><button id='AddButton' className='btn btn-primary'>Cancel</button></Link>
-                        </div>
-                        <div className='col-lg-2 '>
-                            <button id='AddButton' className='btn btn-primary'>Submit</button>
-                        </div>
-                    </div>
-                </div>
+      <Layout>
+        <div>
+        <br></br>
+        <p id={Styles.title}>Group Master</p>
+        <div className="container-fluid mt-4">
+          <div className="row shadow-lg p-2 rounded-4 p-3 ">
+            <div className="row ">
+              <div className="col-lg-4" >
+                <label id={Styles.label}>Name<span id={Styles.asterisk}>* </span></label>
+              </div>
+              <div className="col-lg-4" >
+                <label id={Styles.label}>Description<span id={Styles.asterisk}>* </span></label>
+              </div>
             </div>
-        </Layout>
-    )
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="row ">
+                  <div className="col-lg-4">
+                    <input
+                      name="Short"
+                      className="form-control"
+                      type="text"
+                      {...register("Short", { required: true })}
+                      placeholder="Short Name"
+                    />
+                    <div>
+                      {errors.Short && (
+                        <span style={customStyles.errorMsg}>
+                          Please enter name
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-lg-4">
+                    <textarea
+                      name="Description"
+                      className="form-control"
+                      {...register("Description", { required: true })}
+                      placeholder="Description"
+                    />
+                    <div>
+                      {errors.Description && (
+                        <span style={customStyles.errorMsg}>
+                          Please enter description
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <br></br>
+                <div className="row ">
+                  <div className="col-lg-6"></div>
+                  <div className="col-lg-6">
+                    <Link href='/Masters/groupmaster'><button
+                      type="button"
+                      className="btn common-edit"
+                      id={Styles.btn}
+                    >
+                      Close
+                    </button></Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {actionType == "insert" && (
+                      <button type="submit" className="btn" id={Styles.btn}>
+                        Save
+                      </button>
+                    )}
+                    {actionType == "update" && (
+                      <button type="submit" className="btn" id={Styles.btn}>
+                        Update
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+       
+      </Layout>
+    );
 }
 
 export default GroupMasterForm

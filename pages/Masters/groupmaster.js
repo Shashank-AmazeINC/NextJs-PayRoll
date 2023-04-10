@@ -30,7 +30,7 @@ function GroupMaster() {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
           }).then((result) => {
-            if (result) {
+            if (result.isConfirmed) {
                 axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
                 getData();
             }

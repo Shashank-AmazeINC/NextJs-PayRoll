@@ -31,7 +31,7 @@ let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
-          if (result) {
+          if (result.isConfirmed) {
             axios.get(hostURL + "Master/DeleteWorkingLocationMaster?ID=" + id);
             getData()
           }

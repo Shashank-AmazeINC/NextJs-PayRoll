@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import useParams from 'react-router-dom';
 import axios from 'axios';
 import { get } from 'react-hook-form';
 import Layout from '@/Components/layout';
@@ -9,9 +8,10 @@ function GroupMasterForm() {
 
     let [Name, getName] = useState("");
     let [Des, getDes] = useState("");
-    const id = sessionStorage.getItem("id");
+    let id 
 
     const getData = async () => {
+       id = sessionStorage.getItem("id");
         const res = await axios.get("http://localhost:4199/Master/GetGroupMasterByID?ID=" + id)
         console.log(res.data)
         getName(res.data[0].short)
@@ -22,7 +22,7 @@ function GroupMasterForm() {
         if (id) {
             getData();
         }
-    })
+    },[])
     return (
 
         <Layout>

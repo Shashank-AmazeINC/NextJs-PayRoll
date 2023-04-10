@@ -112,14 +112,14 @@ function BrandMasterDashboard() {
                               <td>
                                 <Link href="/Masters/brandmasterform">
                                   <button
-                                    className={brandmaster.button}
+                                    className="btn btn-primary"
                                     onClick={getBandMasterData.bind(this, data)}
                                   >
                                     Edit
                                   </button>
                                 </Link>
                                 &nbsp;
-                                <button className={brandmaster.button}onClick={() => DeleteBandMaster(data.id)}>Delete{" "}</button>
+                                <button className="btn btn-primary" onClick={() => DeleteBandMaster(data.id)}>Delete{" "}</button>
                               </td>
                             </tr>
                           );

@@ -5,37 +5,28 @@ import Layout from '@/Components/layout';
 
 function GroupMaster() {
 
-    let [GroupData, getData] = useState([]);
-
-
-    const DeleteGroupData = async (id) => {
-        try {
-            const deleteData = await axios.get("http://localhost:4199/Master/DeleteDroup?ID=" + id);
-            alert("Deleted...!!")
-            getGroupData();
-        } catch (error) {
-            alert("do it again....!!!")
-        }
-    }
-
-    const getGroupData = async () => {
-        const { data } = await axios.get("http://localhost:4199/Master/GetGroupMaster")
-        console.log(data)
-        getData(data)
-    }
-
-    const getGroupTax = (data) => {
-        console.log(data)
-        sessionStorage.setItem("id", data.id);
-    }
-
-    const resetID = () => {
-        sessionStorage.setItem("id", "");
-    }
+    const [groupMaster, setGroupMasterData] = useState([]);
 
     useEffect(() => {
-        getGroupData();
-    }, [])
+        async function getData() {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+          let res = await axios.get(
+            hostURL +"Master/GetGroupMaster"
+          );
+          setGroupMasterData(res.data);
+        }
+        getData();
+      }, [1]);
+
+    const deleteGroupData = async (id) => {
+        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        await axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
+        let res = await axios.get(hostURL + "Master/GetGroupMaster");
+        setDashboardData(res.data);
+    }
+    const edit = async (id)=>{
+        sessionStorage.setItem("groupMasterID", id);
+      }
 
     return (
         <Layout>

@@ -15,20 +15,18 @@ function Layout({ children }) {
 
     // if (isLogin == "yes") {
     return (
-        <div className='row'>
-            <div className='col-lg-12'>
-                <Header></Header>
-
+        <div className='container-fluid'>
+            <div className='row' style={{ overflowX: 'hidden' }}>
+                <div className='col-lg-12' style={{ height: '10vh' }}>
+                    <Header></Header>
+                </div>
             </div>
-            <div>
-
-                <div className='row'>
-                    <div className='col-lg-2'>
-                        <Sidebar></Sidebar>
-                    </div>
-                    <div className='col-lg-10'>
-                        <main>{children}</main>
-                    </div>
+            <div className='row'>
+                <div className='col-lg-2' style={{ height: '90vh', overflowY: 'auto' }}>
+                    <Sidebar></Sidebar>
+                </div>
+                <div className='col-lg-10' style={{ height: '90vh', overflowY: 'auto' }}>
+                    <main>{children}</main>
                 </div>
             </div>
         </div>

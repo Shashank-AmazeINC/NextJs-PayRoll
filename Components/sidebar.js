@@ -243,7 +243,7 @@ function Sidebar({ children }) {
                                 <button className={SidebarStyles.sidesubmenu}>job level type</button>
                             </Link>
 
-                            <Link href="/">
+                            <Link href="/Masters/groupmaster">
                                 <button className={SidebarStyles.sidesubmenu}>group master</button>
                             </Link>
 

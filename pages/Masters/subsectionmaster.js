@@ -3,7 +3,8 @@ import React from 'react'
 import Styles from '../../styles/SubSectionMaster.module.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Layout from '@/Components/layout'
-function SubSectionMaster() {
+
+const SubSectionMaster=() => {
     return (
         <Layout>
             <br />

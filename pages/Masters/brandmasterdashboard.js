@@ -67,7 +67,7 @@ function BrandMasterDashboard() {
               <div className="row">
                 <div className="col-lg-6">
                   <h3 className="text-primary fs-5 mt-3 fw-bold">
-                    Band Master
+                    Brand Master
                   </h3>
                 </div>
               </div>

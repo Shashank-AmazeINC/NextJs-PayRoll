@@ -78,11 +78,11 @@ const Login = ({ makelogin }) => {
       style={{
         backgroundColor: "#95a0e2",
         height: "100vh",
-        paddingTop: "7%",
+        paddingTop: "5%",
       }}
     >
-      <div className="col-lg-2"></div>
-      <div className="col-lg-8">
+      <div className="col-lg-3"></div>
+      <div className="col-lg-6">
         <div className="row">
           <div className={"col-lg-6 " + styles.logincard}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -189,7 +189,7 @@ const Login = ({ makelogin }) => {
             <Image
               src={Loginpage}
               alt="DigiLogin"
-              style={{ width: "408px", height: "auto" }}
+              style={{ width: "100%", height: "auto" }}
             />
             <div className={styles.content}>
               <h1>Secured and Easy to Use</h1>

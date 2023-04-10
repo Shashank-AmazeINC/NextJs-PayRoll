@@ -3,8 +3,48 @@ import Styles from '../../styles/SubsidaryMasterDash.module.css'
 import Link from 'next/link'
 import Layout from '@/Components/layout'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function SubsidaryMasterDash() {
+
+export default function SubsidaryMasterDash() {
+
+    const [SubsidaryMaster, setSubsidaryMaster] = useState([]);
+    const [keyword, setKeyword] = useState("");
+
+
+    const getSubsidaryMaster = async () => {
+        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+        let res = await axios.get(hostURL + "Master/GetSubsidaryMaster");
+        setSubsidaryMaster(res.data);
+    }
+
+    useEffect(() => {
+        getSubsidaryMaster()
+    }, [1])
+
+    const getData = (data) => {
+        sessionStorage.setItem("id", data.id);
+    }
+
+    const clearData = () => {
+        sessionStorage.setItem("id", "");
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+            let res = await axios.get(hostURL + `Master/DeleteSubsidaryMaster?id=${id}`);
+            console.log(res.data);  
+            alert("Data deleted successfully");
+            getSubsidaryMaster();
+        } catch (error) {
+            console.error(error);
+            alert("Failed to delete data");
+        }
+    };
+
+
     return (
         <Layout>
             <div>
@@ -19,7 +59,7 @@ function SubsidaryMasterDash() {
                             <p>Filter By</p>
                         </div>
                         <div className='col-lg-5'>
-                            <input type="text" className='form-control form-control-sm' />
+                            <input type="text" className='form-control form-control-sm' onChange={get => { setKeyword(get.target.value) }} />
                         </div>
                     </div>
 
@@ -28,7 +68,7 @@ function SubsidaryMasterDash() {
                     <div className='col-lg-9'></div>
                     <div className='col-lg-2'>
 
-                        <button id={Styles.addButton}> <Link id={Styles.addLink} href="/Masters/subsidarymasterform"> <AiOutlinePlusCircle id={Styles.icon} size={18} /> ADD New</Link></button>
+                        <Link id={Styles.addLink} href="/Masters/subsidarymasterform"> <button id={Styles.addButton} onClick={clearData.bind(this)}><AiOutlinePlusCircle id={Styles.icon} size={18} /> ADD New</button></Link>
 
                     </div>
                     <div className='col-lg-1'></div>
@@ -46,38 +86,30 @@ function SubsidaryMasterDash() {
                             </tr>
                         </thead>
                         <tbody >
-                            <tr id={Styles.td}>
-                                <td id={Styles.td} >Asti Business Services Inc. (ABSI)	</td>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td id={Styles.td}><button id={Styles.actionButton}>Edit</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                            {SubsidaryMaster.filter(post => {
+                                return Object.values(post).some(value =>
+                                    value.toString().toLowerCase().includes(keyword.toLowerCase())
+                                );
+                            })
+                                .map((data) => {
+                                    return (
+                                        <tr key={data.id}>
+                                            <td>{data.name}</td>
+                                            <td>{data.description}</td>
 
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc.	</td>
-                                <td id={Styles.td}>BRAD Warehouse and Logistics Services Inc. (BRAD)	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td id={Styles.td}>Fiber Infrastructure and Network Services Inc. (FINSI)	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
-                            <tr id={Styles.td}>
-                                <td id={Styles.td}>HCX Technology Partners Inc.	</td>
-                                <td id={Styles.td}>HCX Technology Partners Inc.	</td>
-                                <td id={Styles.td}>
-                                    <button id={Styles.actionButton}  >Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button id={Styles.actionButton}>Delete</button>
-                                </td>
-                            </tr>
+                                            <td>
+                                                <Link href="/Masters/subsidarymasterform">
+                                                    <button className="btn btn-primary" onClick={getData.bind(this, data)}>Edit</button>
+                                                </Link>
+                                                &nbsp;
+
+                                                <button className="btn btn-danger" onClick={() => handleDelete(data.id)}>Delete</button>
+                                            </td>
+
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
 
@@ -89,5 +121,3 @@ function SubsidaryMasterDash() {
         </Layout>
     )
 }
-
-export default SubsidaryMasterDash

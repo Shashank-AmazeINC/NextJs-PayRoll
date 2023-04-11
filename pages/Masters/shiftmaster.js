@@ -28,14 +28,14 @@ function ShiftMaster() {
   const handleDelete = async (id) => {
     try {
       let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-      const res = await axios.get(hostURL + `Master/DeleteShiftMaster?id=${id}`);
+      const res = await axios.get(hostURL + `Master/DeleteShiftMaster?ID=${id}`);
       console.log(res.data);
       Swal.fire({
         icon: "success",
         title: "Hurray..",
         text: "Data was Deleted...!",
       });
-      getOtdetails();
+      getShiftdetails();
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -87,6 +87,7 @@ function ShiftMaster() {
                   <th> Description</th>
                   <th> Shift Timings</th>
                   <th> Grace</th>
+                  <th>Shift Type</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -97,14 +98,15 @@ function ShiftMaster() {
                       <tr className="text-dark" key={index}>
                         <td>{data.short}</td>
                         <td>{data.description}</td>
-                        <td>{data.shiftTimings}</td>
+                        <td>{data.shiftTimeings}</td>
                         <td>{data.grace}</td>
+                        <td>{data.shiftType}</td>
                         <td>
                           <Link href="/Masters/shiftmasterform">
-                            <button id={Styles.actionButton} onClick={getData.bind(this, data)}>Edit</button>
+                            <button id={Styles.actionBtn} onClick={getData.bind(this, data)}>Edit</button>
                           </Link>
                           &nbsp; &nbsp; &nbsp;
-                          <button id={Styles.actionButton} onClick={() => handleDelete(data.id)}>Delete</button>
+                          <button id={Styles.actionBtn} onClick={() => handleDelete(data.id)}>Delete</button>
                         </td>
                       </tr>
                     )

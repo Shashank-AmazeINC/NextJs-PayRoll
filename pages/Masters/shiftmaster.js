@@ -87,6 +87,7 @@ function ShiftMaster() {
                   <th> Description</th>
                   <th> Shift Timings</th>
                   <th> Grace</th>
+                  <th>Shift Type</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -99,6 +100,7 @@ function ShiftMaster() {
                         <td>{data.description}</td>
                         <td>{data.shiftTimeings}</td>
                         <td>{data.grace}</td>
+                        <td>{data.shiftType}</td>
                         <td>
                           <Link href="/Masters/shiftmasterform">
                             <button id={Styles.actionBtn} onClick={getData.bind(this, data)}>Edit</button>

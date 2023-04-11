@@ -158,7 +158,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>semi monthly tax</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/sss">
                                 <button className={SidebarStyles.sidesubmenu}>sss</button>
                             </Link>
 

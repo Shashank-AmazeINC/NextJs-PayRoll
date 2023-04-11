@@ -38,6 +38,7 @@ export default function BarangayMasterForm() {
             if (id) {
                 let response = await axios.get(hostURL + "Master/GetBarangayMasterByID?ID=" + id);
                 clearForm(response.data[0]);
+                console.log(response.data);
             }
             else {
                 clearForm();

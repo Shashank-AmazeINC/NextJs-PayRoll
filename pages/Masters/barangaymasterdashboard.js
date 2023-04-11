@@ -65,7 +65,7 @@ export default function BarangayMasterDash() {
                 <div className='row mt-3'>
                     <div className='col-lg-9'></div>
                     <div className='col-lg-2'>
-                          <Link href="/Masters/barangaymasterform" id={Styles.addLink}><button id={Styles.addButton} onClick={clearData.bind(this)} > ADD NEW </button><AiOutlinePlusCircle size={15} /> ADD NEW</Link>
+                          <Link href="/Masters/barangaymasterform" id={Styles.addLink}><button id={Styles.addButton} onClick={clearData.bind(this)} > ADD NEW </button><AiOutlinePlusCircle size={15} /> </Link>
 
                     </div>
                     <div className='col-lg-1'></div>
@@ -93,11 +93,11 @@ export default function BarangayMasterDash() {
                                         <td>{data.name}</td>
                                         <td>
                                             <Link href="/Masters/barangaymasterform">
-                                                <button className="btn btn-primary" onClick={getData.bind(this, data)}>Edit</button>
+                                                <button className={Styles.actionButton} onClick={getData.bind(this, data)} >Edit</button>
                                             </Link>
                                             &nbsp;
 
-                                            <button className="btn btn-danger" onClick={() => handleDelete(data.id)}>Delete</button>
+                                            <button className={Styles.actionButton} onClick={() => handleDelete(data.id)}>Delete</button>
                                         </td>
                                     </tr>
                                 )

@@ -162,7 +162,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>sss</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/philhealth">
                                 <button className={SidebarStyles.sidesubmenu}>philhealth</button>
                             </Link>
 
@@ -177,6 +177,8 @@ const  Sidebar=({ children }) => {
                             <Link href="">
                                 <button className={SidebarStyles.sidesubmenu}>daily rate</button>
                             </Link>
+
+                           
                         </div>
 
                     )

@@ -166,7 +166,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>philhealth</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/mpf">
                                 <button className={SidebarStyles.sidesubmenu}>mpf</button>
                             </Link>
 
@@ -208,7 +208,7 @@ const  Sidebar=({ children }) => {
                             </Link>
 
                             <Link href="/Masters/citymasterdashboard/">
-                                <button className={SidebarStyles.sidesubmenu}>barangay master</button>
+                                <button className={SidebarStyles.sidesubmenu}>City master</button>
                             </Link>
 
                             <Link href="/Masters/barangaymasterdashboard/">

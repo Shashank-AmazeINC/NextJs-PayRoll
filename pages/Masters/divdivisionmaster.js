@@ -33,6 +33,10 @@ function DivDivisionMaster() {
                 if (result) {
                     axios.post(hostURL + "Master/UpdateDivisionMaster", data)
                     sessionStorage.removeItem("id")
+                    Swal.fire({
+                        icon: "success",
+                        titleText: "Updated Successfully"
+                    })
                     location.href = "/Masters/divisionmasterdashboard"
                 }
             })

@@ -27,6 +27,7 @@ function StateMasterDashboard() {
     }
 
     const deleteState = async (id) =>{
+        debugger
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -37,7 +38,7 @@ function StateMasterDashboard() {
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.isConfirmed) {
-            axios.get(hostURL + "Master/DeleteWorkingLocationMaster?ID=" + id);
+            axios.get(hostURL + "Master/DeleteStateType?ID=" + id);
             getData()
           }
         });
@@ -107,8 +108,8 @@ function StateMasterDashboard() {
               {state.map((data, index) => {
                 return (
                   <tr className="text-dark" key={index}>
+                  <td>{data.country}</td>
                     <td>{data.short}</td>
-                    <td>{data.country}</td>
                     <td>{data.description}</td>
                     <td>
                       <Link href="/Masters/statemasterform">

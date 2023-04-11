@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "../../styles/employmentJobHistory.module.css";
 import Link from "next/link";
 import Layout from "@/Components/layout";
+import axios from "axios";
+import Swal from 'sweetalert2';
+
 function ShiftMaster() {
+  const [shiftDetails, setShiftDetails] = useState([]);
+
+  const getShiftdetails = async () => {
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    const res = await axios.get(hostURL + "Master/GetShiftMaster");
+    setShiftDetails(res.data);
+  }
+
+  useEffect(() => {
+    getShiftdetails()
+  }, [1])
+
+  const getData = (data) => {
+    sessionStorage.setItem("id", data.id);
+  }
+  const clearData = () => {
+    sessionStorage.setItem("id", "");
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+      const res = await axios.get(hostURL + `Master/DeleteShiftMaster?ID=${id}`);
+      console.log(res.data);
+      Swal.fire({
+        icon: "success",
+        title: "Hurray..",
+        text: "Data was Deleted...!",
+      });
+      getShiftdetails();
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops..",
+        text: "Data was Not Deleted...!",
+      });
+    }
+  };
+
   return (
     <Layout>
       <div>
@@ -19,7 +62,6 @@ function ShiftMaster() {
                 </p>
               </b>
             </div>
-
             <div className="col-lg-5">
               {/* <h6>Pay Date</h6> */}
               {/* <ReactDatePicker   className=" mt-2 form-control"></ReactDatePicker> */}
@@ -33,13 +75,7 @@ function ShiftMaster() {
           <div className="row mt-4">
             <div className="col-lg-10"></div>
             <div className="col-lg-2">
-
-
-              <Link href="/Masters/shiftmasterform"><button
-                className="btn btn-primary btn-sm shadow-lg"
-                id={Styles.addNew}>Add New
-              </button></Link>
-
+              <Link href="/Masters/shiftmasterform"><button className="btn btn-primary btn-sm shadow-lg" onClick={clearData.bind(this)} id={Styles.addNew}>Add New</button></Link>
             </div>
           </div>
           <br />
@@ -47,33 +83,35 @@ function ShiftMaster() {
             <table className={Styles.commonTable}>
               <thead>
                 <tr>
-                  <th>Overtime Code</th>
+                  <th> Short</th>
                   <th> Description</th>
-                  <th> Permanant Employee</th>
-                  <th> Probationary Employee</th>
-
+                  <th> Shift Timings</th>
+                  <th> Grace</th>
+                  <th>Shift Type</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>test</td>
-                  <td>test</td>
-                  <td>test</td>
-                  <td>test</td>
-
-                  <td>
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <button id={Styles.actionBtn}>Edit</button>
-                      </div>
-
-                      <div className="col-lg-4">
-                        <button id={Styles.actionBtn}>Delete</button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                {
+                  shiftDetails.map((data, index) => {
+                    return (
+                      <tr className="text-dark" key={index}>
+                        <td>{data.short}</td>
+                        <td>{data.description}</td>
+                        <td>{data.shiftTimeings}</td>
+                        <td>{data.grace}</td>
+                        <td>{data.shiftType}</td>
+                        <td>
+                          <Link href="/Masters/shiftmasterform">
+                            <button id={Styles.actionBtn} onClick={getData.bind(this, data)}>Edit</button>
+                          </Link>
+                          &nbsp; &nbsp; &nbsp;
+                          <button id={Styles.actionBtn} onClick={() => handleDelete(data.id)}>Delete</button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
               </tbody>
             </table>
           </div>

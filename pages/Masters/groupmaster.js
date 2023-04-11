@@ -10,15 +10,15 @@ function GroupMaster() {
     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
     useEffect(() => {
-        
         getData();
-      }, []);
-      async function getData() {
+    }, []);
+
+    async function getData() {
         let res = await axios.get(
           hostURL +"Master/GetGroupMaster"
         );
         setGroupMasterData(res.data);
-      }
+    }
 
     const deleteGroupData = async (id) => {
         Swal.fire({
@@ -30,7 +30,7 @@ function GroupMaster() {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
           }).then((result) => {
-            if (result) {
+            if (result.isConfirmed) {
                 axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
                 getData();
             }
@@ -38,10 +38,10 @@ function GroupMaster() {
     }
     const edit = async (id)=>{
         sessionStorage.setItem("groupMasterID", id);
-      }
+    }
       const clearSession = async ()=>{
         sessionStorage.setItem("groupMasterID","")
-      }
+    }
     return (
         <Layout>
             <div>
@@ -51,7 +51,6 @@ function GroupMaster() {
                         <div className='col-lg-1'>
                             <p>Filter By</p>
                         </div>
-
                         <div className='col-lg-5'>
                             <input type="text" className='form-control' placeholder='Search...' />
                         </div>
@@ -68,7 +67,6 @@ function GroupMaster() {
                         </Link>
                     </div>
                 </div>
-
                 <table className='table table-hover mt-4 '>
                     <thead className='bg-info text-white '>
                         <tr>
@@ -100,5 +98,4 @@ function GroupMaster() {
         </Layout>
     )
 }
-
 export default GroupMaster

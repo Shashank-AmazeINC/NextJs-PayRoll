@@ -43,25 +43,18 @@
 }
 
 #table {
-
     justify-content: center;
-    font-family: Poppins;
     width: 100%;
-    font-size: 15px;
     border-radius: 10px;
     overflow: hidden;
     margin-left: 50px;
-    font-size: 13px;
     margin-left: auto;
     margin-right: auto;
     width: 95%;
-
 }
 
 #tr {
     background-color: #02cfff;
-
-
 }
 
 #card {

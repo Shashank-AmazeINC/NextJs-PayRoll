@@ -1,31 +1,52 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Layout from '@/Components/layout'
 import axios from 'axios'
+import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react'
 
 function LevelTypeDash() {
 
     let [dashboard, setDashboardData] = useState([])
     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-    const getLevelType = async () => {     
-        const  res  = await axios.get(hostURL + "Master/GetLevelType")
+    const getLevelType = async () => {
+        const res = await axios.get(hostURL + "Master/GetLevelType")
         console.log(res.data)
         setDashboardData(res.data)
     }
 
-    const getID = (data) =>{
-        sessionStorage.setItem("id",data.id)
+    const getID = (data) => {
+        sessionStorage.setItem("id", data.id)
+    }
+    const clearSessionData = () => {
+        sessionStorage.setItem("id", "");
     }
 
-    const deleteLevelType = async(id) =>{
-        await axios.get(hostURL + "Master/DeleteLevelType?ID=" + id)
-        getLevelType();
+    const deleteLevelType = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.get(hostURL + "Master/DeleteLevelType?ID=" + id)
+                Swal.fire({
+                    icon: "success",
+                    titleText: "Deleted Successfully"
+                })
+            }
+            getLevelType();
+        })
+
     }
 
     useEffect(() => {
         getLevelType();
-    }, [1])
+    }, [])
     return (
         <Layout>
             <div className='container'>
@@ -51,7 +72,7 @@ function LevelTypeDash() {
                     </div>
                     <div className='col-lg-8'></div>
                     <div className='col-lg-2 mt-2 text-end'>
-                        <Link href="/Masters/leveltypeform" className='btn btn-primary AddButton'>Add New</Link>
+                        <Link href="/Masters/leveltypeform" onClick={clearSessionData} className='btn btn-primary AddButton'>Add New</Link>
                     </div>
 
                     <table className='table table-hover mt-4 '>
@@ -64,14 +85,14 @@ function LevelTypeDash() {
                         </thead>
                         <tbody>
                             {
-                                dashboard.map((data)=>{
-                                    return(
+                                dashboard.map((data) => {
+                                    return (
                                         <tr key={data.id}>
                                             <td>{data.short}</td>
                                             <td>{data.description}</td>
                                             <td>
-                                                <button className='btn btn-primary mx-3' onClick={getID.bind(this,data)}>Edit</button>
-                                                <button className='btn btn-primary ' onClick={deleteLevelType.bind(this,data.id)}>Delete</button>
+                                                <Link href="/Masters/leveltypeform"><button className='btn btn-primary mx-3' onClick={getID.bind(this, data)}>Edit</button></Link>
+                                                <button className='btn btn-primary ' onClick={deleteLevelType.bind(this, data.id)}>Delete</button>
                                             </td>
                                         </tr>
                                     )

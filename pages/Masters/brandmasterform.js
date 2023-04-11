@@ -4,14 +4,13 @@ import Layout from "@/Components/layout";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from 'axios'
+import Swal from 'sweetalert2'
+
+
 function BrandMasterForm() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm();
+
+  const {register,handleSubmit,watch,reset,formState: { errors },} = useForm();
+
   const [actionType, setActionType] = useState("insert");
 
   useEffect(() => {
@@ -46,8 +45,14 @@ function BrandMasterForm() {
     console.log(data);
     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
     if (actionType == "insert") {
-      await axios.post(hostURL + "Master/InsertBrandMaster", data);
-      alert("data Inserted");
+      try {
+        
+        await axios.post(hostURL + "Master/InsertBrandMaster", data);
+      } catch (error) {
+        
+      }
+      
+     
     } else {
       await axios.post(hostURL + "Master/UpdateBrandMaster", data);
       alert("updated");
@@ -65,12 +70,8 @@ function BrandMasterForm() {
                 <p>
                   Short Name<i className="text-danger">*</i>
                 </p>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Short Name"
-                  {...register("Short", { required: true })}
-                />
+                <input type="text"className="form-control"placeholder="Short Name"{...register('Name', { required: "Please add a Short Name", pattern: {value: /^[A-Za-z0-9]+$/, message: "Please enter a valid Short Name" }})}/>
+                {errors.Name && <p className="error-message" style={{ color: "red" }}>{errors.Name.message}</p>}
               </div>
 
               <div className="col-lg-5">
@@ -80,8 +81,10 @@ function BrandMasterForm() {
                 <textarea
                   className="form-control"
                   placeholder="Description"
-                  {...register("Description", { required: true })}
+                  {...register('Name', { required: "Please add a Descrption Name", pattern: {value: /^[A-Za-z0-9]+$/, message: "Please enter a valid Descrption Name" }})}
                 ></textarea>
+                {errors.Name && <p className="error-message" style={{ color: "red" }}>{errors.Name.message}</p>}
+
               </div>
             </div>
 

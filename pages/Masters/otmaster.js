@@ -12,7 +12,7 @@ function Otmaster() {
   const [actionType, setActionType] = useState("insert");
 
   useEffect(() => {
-    async function getstudentList() {
+    async function otList() {
       debugger
       const id = sessionStorage.getItem("id");
       if (id) {
@@ -24,7 +24,7 @@ function Otmaster() {
         clearForm();
       }
     }
-    getstudentList();
+    otList();
   }, [1]);
 
   function clearForm(otData = null) {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Layout from "@/Components/layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function BrandMasterDashboard() {
   const [BrandMaster, setBrandMaster] = useState([]);
@@ -28,15 +29,29 @@ function BrandMasterDashboard() {
   };
 
   async function DeleteBandMaster(id) {
-    debugger
+    debugger;
     try {
       let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-      const res = await axios.get(
-        hostURL + `Master/DeleteBrandMaster?id=${id}`
-      );
-      console.log(res.data);
-      alert("Data Deleted Sucessfully");
-      getBrandMaster();
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((res) => {
+        if (res) {
+          axios.get(hostURL + `Master/DeleteBrandMaster?id=${id}`);          
+        }
+        getBrandMaster();
+      });
+      // const res = await axios.get(
+      //   hostURL + `Master/DeleteBrandMaster?id=${id}`
+      // );
+      // console.log(res.data);
+      // alert("Data Deleted Sucessfully");
+      // getBrandMaster();
     } catch (error) {
       console.error(error);
       alert("Failed to delete data");
@@ -52,7 +67,7 @@ function BrandMasterDashboard() {
               <div className="row">
                 <div className="col-lg-6">
                   <h3 className="text-primary fs-5 mt-3 fw-bold">
-                    Band Master
+                    Brand Master
                   </h3>
                 </div>
               </div>
@@ -119,7 +134,12 @@ function BrandMasterDashboard() {
                                   </button>
                                 </Link>
                                 &nbsp;
-                                <button className="btn btn-primary" onClick={() => DeleteBandMaster(data.id)}>Delete{" "}</button>
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => DeleteBandMaster(data.id)}
+                                >
+                                  Delete{" "}
+                                </button>
                               </td>
                             </tr>
                           );

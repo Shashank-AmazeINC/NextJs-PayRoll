@@ -27,10 +27,14 @@ function DivisionMasterDashboard() {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
-      if (result) {
+      if (result.isConfirmed) {
         axios.get(hostURL + "Master/DeleteDivisionMaster?ID=" + id)
-        getData();
+        Swal.fire({
+          icon: "success",
+          titleText: "Deleted Successfully"
+        })
       }
+      getData();
     })
 
   }
@@ -46,6 +50,7 @@ function DivisionMasterDashboard() {
   useEffect(() => {
     getData();
   }, [])
+
   return (
     <Layout>
       <div>

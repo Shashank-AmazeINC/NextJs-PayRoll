@@ -1,69 +1,136 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import Styles from "../../styles/employmentJobHistory.module.css";
-import Link from 'next/link';
 import Layout from '@/Components/layout';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 function DivDivisionMaster() {
-    // form validation rules 
+    let [actionType, setActionType] = useState("insert")
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, reset, formState } = useForm();
-    const { errors } = formState;
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+    const onSubmit = async (data) => {
+        console.log(JSON.stringify(data))
+        if (actionType == "insert") {
+            await axios.post(hostURL + "Master/InsertDivisionMaster", data)
+            location.href = "/Masters/divisionmasterdashboard"
+            Swal.fire({
+                icon: 'success',
+                title: 'Added Successfully',
+            })
+        }
+        else {
+            Swal.fire({
+                title: 'Are you sure to update?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result) {
+                    axios.post(hostURL + "Master/UpdateDivisionMaster", data)
+                    sessionStorage.removeItem("id")
+                    location.href = "/Masters/divisionmasterdashboard"
+                }
+            })
+
+        }
+    }
+
+    function clearForm(existingData = null) {
+        let etty = {
+            "ID": existingData ? existingData.id : "",
+            "Short": existingData ? existingData.short : "",
+            "Description": existingData ? existingData.description : "",
+        }
+        reset(etty)
+        setActionType(existingData ? "update" : "insert")
+    }
+
+    let ID;
+    const getByID = async () => {
+        const res = await axios.get(hostURL + "Master/GetDivisionMasterByID?ID=" + ID)
+        clearForm(res.data[0])
+    }
+
+    useEffect(() => {
+        clearForm()
+        ID = sessionStorage.getItem("id")
+        if (ID) {
+            getByID();
+        }
+    }, [])
+
 
     return (
         <Layout>
-            <div>
-                <div className="container-fluid">
-                    <div className={Styles.rowcss}>
-                        <div className="col-md-12">
-                            <div className="row">
-                                <div className="col-lg-2">
-                                    <h3 className="Heading" style={{ color: "#3247d5" }}>Division Master</h3>
-                                </div>
-                                <div className="col-lg-8">
-                                </div>
-                                <div className="col-lg-2">
+            <div className="container">
+                <h3 className='text-primary fs-5 mt-3'>Division Master</h3>
+                <div className='card p-3 border-0 shadow-lg rounded-3 mt-4 mb-5'>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="row ">
+                            <div className="col-lg-4">
+                                <p>Short Name <i className="text-danger">*</i></p>
+                                <input
+                                    name="Short"
+                                    className="form-control"
+                                    type="text"
+                                    {...register("Short", { required: true })}
+                                    placeholder="Short Name"
+                                />
+                                <div>
+                                    {errors.Short && (
+                                        <span className="mt-2 text-danger">
+                                            Please enter name
+                                        </span>
+                                    )}
                                 </div>
                             </div>
-                            <form>
-                                <div className={Styles.cardcss}>
-                                    <div className="row leavereq">
-                                        <div className="col-md-2">
-                                            <label > Short Name<span style={{ color: "red" }}>*</span></label>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <label > Description<span style={{ color: "red" }}>*</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="row leavereq">
-                                        <div className="col-md-2">
-                                            <input type="text" placeholder="Name" name="Sort" id="Sort" className={`form-control ${errors.Name ? 'is-invalid' : ''}`} />
-                                            <div className="invalid-feedback">{errors.Name?.message}</div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <textarea name="Description" rows="3" type="text" placeholder='Description' className={`form-control ${errors.Description ? 'is-invalid' : ''}`} />
-                                            <div className="invalid-feedback">{errors.Description?.message}</div>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div className="row">
-                                        <div className="col-lg-7">
-                                        </div>
-                                        <div className="col-lg-2">
-                                            <Link href="/Masters/DivisionMasterDashboard"><button id={Styles.addNew} style={{ color: 'white' }} tabindex="0">CANCEL</button></Link>
-                                        </div>
-                                        <div className="col-lg-2">
-                                            <button id={Styles.addNew} style={{ color: 'white' }}>SUBMIT</button>
-                                        </div>
-                                    </div>
+                            <div className="col-lg-4">
+                                <p>Description <i className="text-danger">*</i></p>
+                                <textarea
+                                    name="Description"
+                                    className="form-control"
+                                    {...register("Description", { required: true })}
+                                    placeholder="Description"
+                                />
+                                <div>
+                                    {errors.Description && (
+                                        <span className="text-danger mt-2" >
+                                            Please enter description
+                                        </span>
+                                    )}
                                 </div>
-                            </form>  </div>
-
-                    </div>
+                            </div>
+                        </div>
+                        <br></br>
+                        <div className="row ">
+                            <div className="col-lg-8"></div>
+                            <div className="col-lg-2 text-end">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary AddButton" >
+                                    Close
+                                </button>
+                            </div>
+                            <div className="col-lg-2">
+                                {
+                                    actionType == "insert" && (
+                                        <button type='submit' className="btn btn-primary AddButton">Save</button>
+                                    )
+                                }
+                                {
+                                    actionType == "update" && (
+                                        <button type='submit' className="btn btn-primary AddButton">Update</button>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
             </div>
         </Layout>
     )

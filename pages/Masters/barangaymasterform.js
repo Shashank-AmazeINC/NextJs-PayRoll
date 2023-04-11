@@ -1,17 +1,76 @@
 import React, { Component } from 'react';
-
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic'
 import Barangay from '../../styles/BarangayMasterForm.module.css'
-
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import Layout from '@/Components/layout';
 import Link from 'next/link';
-function BarangayMasterForm() {
+import Swal from 'sweetalert2'
 
 
-    // get functions to build form with useForm() hook
+
+export default function BarangayMasterForm() {
+
+
+    const hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+
     const { register, handleSubmit, reset, formState } = useForm();
     const { errors } = formState;
+
+    const [actionType, setActionType] = useState("insert");
+
+    const [countrydata, setCountryData] = useState([]);
+    const [provincedata, setProvinceData] = useState([]);
+    const [citydata, setCityData] = useState([]);
+
+
+    useEffect(() => {
+        async function getData() {
+            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+            let res = await axios.get(hostURL + "Master/GetCountryType");
+            setCountryData(res.data);
+            res = await axios.get(hostURL + "Master/GetStateType");
+            setProvinceData(res.data);
+            res = await axios.get(hostURL + "Master/GetCityType");
+            setCityData(res.data);
+            const id = sessionStorage.getItem("id");
+            if (id) {
+                let response = await axios.get(hostURL + "Master/GetBarangayMasterByID?ID=" + id);
+                clearForm(response.data[0]);
+            }
+            else {
+                clearForm();
+            }
+        }
+        getData()
+    }, [1]);
+
+
+
+    function clearForm(userData = null) {
+        let details = {
+            "ID": userData ? userData.id : "",
+            "CountryID": userData ? userData.countryID : "",
+            "ProvinceID": userData ? userData.provinceID : "",
+            "CityID": userData ? userData.cityID : "",
+            "Name": userData ? userData.name : "",
+        }
+        reset(details);
+        setActionType(userData ? "update" : 'insert')
+    }
+
+    async function onSubmit(data) {
+        if (actionType == "insert") {
+            await axios.post(hostURL + "Master/InsertBarangayMaster", data);
+            Swal.fire('Data Inserted successfully')
+        }
+        else {
+            await axios.post(hostURL + "Master/UpdateBarangayMaster", data);
+            Swal.fire('Data Updated successfully')
+        }
+    }
+
 
     return (
         <Layout>
@@ -29,67 +88,70 @@ function BarangayMasterForm() {
                     </div>
                     <br />
                     <div className={Barangay.card}>
-                        <br /><form>
-                            <div className="row leavereq">
-                                <div className="col-lg-2">
-                                    <label className="textcolor fw-bold">Country Name<span className={Barangay.span}>*</span></label>
-
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="row">
+                                <div className="col-lg-3">
+                                    <label htmlFor="">Country Name  </label> <br />
+                                    <select className={Barangay.selecter} {...register("CountryID", { required: true })}>
+                                        <option value="">Select Country</option>
+                                        {
+                                            countrydata.map((data) => {
+                                                return (
+                                                    <option value={data.id} key={data.id} >{data.short}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
-                                <div className="col-md-2">
-                                    <label className="textcolor fw-bold">Province<span className={Barangay.span}>*</span></label>
-                                </div><div className="col-md-2"><label className="textcolor fw-bold">City <span className={Barangay.span}>*</span></label>
+                                <div className="col-lg-3">
+                                    <label htmlFor="">Province</label><br />
+                                    <select className={Barangay.selecter} {...register("ProvinceID", { required: true })}>
+                                        <option value="">Select Country</option>
+                                        {
+                                            provincedata.map((data) => {
+                                                return (
+                                                    <option value={data.id} key={data.id} >{data.short}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
-                                <div className="col-md-2">
-                                    <label className="textcolor fw-bold">Barangay<span className={Barangay.span}>*</span>
-                                    </label>
+                                <div className="col-lg-3">
+                                    <label htmlFor="">City </label><br />
+                                    <select className={Barangay.selecter} {...register("CityID", { required: true })}>
+                                        <option value="">Select Country</option>
+                                        {
+                                            citydata.map((data) => {
+                                                return (
+                                                    <option value={data.id} key={data.id} >{data.short}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                                <div className="col-lg-3">
+                                    <label htmlFor="">Barangay</label><br />
+                                    <input type="text" className={Barangay.selecter} {...register('Name', { required: true })} />
                                 </div>
                             </div>
                             <br />
-                            <div className="row leavereq">
-                                <div className="col-md-2">
-                                    <div className="dropdown">
-                                        <select id="CountryID" name="CountryID" className="form-control inputfield ">
-                                            <option value="0" disabled="" selected="" className="textcolor">Select Country </option
-                                            >
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-md-2">
-                                    <div className="dropdown">
-                                        <select id="StateID" name="StateID" className="form-control inputfield "><option value="0" disabled="" selected="" className="textcolor">Select Province </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-md-2">
-                                    <div className="dropdown">
-                                        <select id="CityID" name="CityID" className="form-control inputfield ">
-                                            <option value="0" disabled="" selected="" className="textcolor">Select City </option></select>
-                                    </div>
-                                </div>
-                                <div className="col-md-2">
-                                    <input name="Barangay" type="text" {...register('Barangay')} className={`form-control ${errors.Barangay ? 'is-invalid' : ''}`} />
-                                    <div className="invalid-feedback">{errors.Barangay?.message}</div>
-                                </div>
-                            </div>
-                            <br /><br />
                             <div className="row">
-                                <div className="col-lg-8">
+                                <div className="col-lg-11">
+                                    <Link href="/Masters/barangaymasterdashboard"><button className='btn btn-primary' style={{ float: "right", marginLeft: "5px" }} tabindex="0">CANCEL</button></Link>
+                                    {
+                                        actionType == "insert" && (
+                                            <button type='submit' className='btn btn-primary' style={{ float: "right" }}>Save</button>
+                                        )
+                                    }
+                                    {
+                                        actionType == "update" && (
+                                            <button type='submit' className='btn btn-primary' style={{ float: "right" }}>Update</button>
+                                        )
+                                    }
                                 </div>
-                                <div className="col-lg-2">
-                                    <Link href="/Masters/BarangayMasterDash"><button className={Barangay.button}>CANCEL</button></Link>
-                                </div>
-                                <div className="col-lg-2">
 
-                                    <template id='my-template'>
-                                        <swal-title>Please fill all the deatails</swal-title>
-                                    </template>
-
-                                    <button class={Barangay.button} data-swal-template='#my-template'>
-                                        Save
-                                    </button>
-
-                                </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -100,4 +162,3 @@ function BarangayMasterForm() {
 
 }
 
-export default dynamic(() => Promise.resolve(BarangayMasterForm), { ssr: false })

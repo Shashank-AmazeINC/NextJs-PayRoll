@@ -98,12 +98,12 @@ function ShiftMasterForm() {
                         </div>
                         <div className="col-md-2">
                            <label >Grace Period<span style={{ color: "red" }}>*</span></label>
-                           <input type="text" placeholder="Enter Grace Period" name="Grace" id="Grace" className="form-control " {...register("Grace", { required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter a valid Detail" } })} />
+                           <input type="tel" placeholder="Enter Grace Period" name="Grace" id="Grace" className="form-control " {...register("Grace", { required: "This field is required" })} />
                            {errors.Grace && <p className="error-message" style={{ color: "red" }}>{errors.Grace.message}</p>}
                         </div>
                         <div className="col-md-2">
                            <label >Shift Type<span style={{ color: "red" }}>*</span></label>
-                           <input type="text" placeholder="Enter Shift Type" name="ShiftType" id="ShiftType" className="form-control " {...register("ShiftType", { required: "This field is required", pattern: { value: '^[A-Za-z0-9 ]+$', message: "Please enter a valid Detail" } })} />
+                           <input type="tel" placeholder="Enter Shift Type" name="ShiftType" id="ShiftType" className="form-control " {...register("ShiftType", { required: "This field is required" })} />
                            {errors.ShiftType && <p className="error-message" style={{ color: "red" }}>{errors.ShiftType.message}</p>}
                         </div>
                      </div>

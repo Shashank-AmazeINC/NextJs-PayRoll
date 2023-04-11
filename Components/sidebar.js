@@ -166,11 +166,11 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>philhealth</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/mpf">
                                 <button className={SidebarStyles.sidesubmenu}>mpf</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/pagibig">
                                 <button className={SidebarStyles.sidesubmenu}>pagibig</button>
                             </Link>
 

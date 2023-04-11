@@ -63,77 +63,9 @@ function CityMasterDash()
                                 <th >City Name</th>
                                 <th >Description</th>
                                 <th >Action</th>
-                            </tr></thead>
-                        <tr >
-                            <td >Philippines</td>
-                            <td >Palawan</td>
-                            <td >Aborlan</td>
-                            <td >Aborlan</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button></td></tr>
-                        <tr ><td >Philippines</td>
-                            <td >Occidental Mindoro</td>
-                            <td >Abra De Ilog</td>
-                            <td >Abra De Ilog</td>
-                            <td ><button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button></td></tr>
-                        <tr ><td >Philippines</td>
-                            <td >Bataan</td>
-                            <td >Abucay</td>
-                            <td >Abucay</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td >Philippines</td>
-                            <td >Cagayan</td>
-                            <td >Abulug</td>
-                            <td >Abulug</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-
-                                <button class="edit-btn">Delete</button>
-                            </td></tr>
-                        <tr >
-                            <td >Philippines</td>
-                            <td >Leyte</td>
-                            <td >Abuyog</td>
-                            <td >Abuyog</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button></td>
-                        </tr>
-                        <tr >
-                            <td >Philippines</td>
-                            <td >Ilocos Norte</td>
-                            <td >Adams</td>
-                            <td >Adams</td>
-                            <td ><button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button>
-                            </td></tr>
-                        <tr ><td >Philippines</td>
-                            <td >Quezon</td>
-                            <td >Agdangan</td>
-                            <td >Agdangan</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-
-                                <button class="edit-btn">Delete</button>
-                            </td></tr>
-                        <tr >
-                            <td >Philippines</td>
-                            <td >Quirino</td>
-                            <td >Aglipay</td>
-                            <td >Aglipay</td>
-                            <td >
-                                <button class="edit-btn" tabindex="0">Edit</button>
-                                <button class="edit-btn">Delete</button>
-                            </td>
-                        </tr>
-
+                            </tr>
+                            </thead>
+                        
                         <tr >
                             <td >Philippines</td>
                             <td >Pangasinan</td>
@@ -152,8 +84,8 @@ function CityMasterDash()
                         </tr>
                     </table>
 
-                </div
-                ></div>
+                </div>
+                </div>
 
 
 

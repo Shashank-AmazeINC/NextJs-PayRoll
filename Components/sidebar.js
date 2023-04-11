@@ -150,7 +150,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>company</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/annualtax">
                                 <button className={SidebarStyles.sidesubmenu}>annual tax</button>
                             </Link>
 

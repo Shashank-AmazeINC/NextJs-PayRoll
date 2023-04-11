@@ -48,10 +48,10 @@ function StateMasterForm() {
   };
   function clearForm(existingData = null) {
     let etty = {
-      ID: existingData ? existingData.id : "",
-      Short: existingData ? existingData.short : "",
-      Description: existingData ? existingData.description : "",
-      CountryID: existingData ? existingData.countryID : "",
+      "ID": existingData ? existingData.id : "",
+      "Short": existingData ? existingData.short : "",
+      "Description": existingData ? existingData.description : "",
+      "CountryID": existingData ? existingData.countryID : "",
     };
     reset(etty);
     setActionType(existingData ? "update" : "insert");

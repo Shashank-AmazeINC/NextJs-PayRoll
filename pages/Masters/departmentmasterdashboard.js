@@ -1,8 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "../../styles/employmentJobHistory.module.css";
 import Link from "next/link";
 import Layout from "@/Components/layout";
+import axios from "axios";
+import Swal from 'sweetalert2';
+
 function DepartmentMasterDashboard() {
+
+  const [Department, setDepartmentMaster] = useState([])
+
+  const getDepartmentMaster = async () => {
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    const { data } = await axios.get(hostURL + "Master/GetDepartmentMaster");
+    setDepartmentMaster(data)
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          const res = axios.get(hostURL + `Master/DeleteDepartmentMaster?ID=${id}`);
+          console.log(res.data);
+          // alert("Data deleted successfully");
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        } getDepartmentMaster();
+
+      })
+
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete data");
+    }
+  };
+
+  const getData = (data) => {
+    sessionStorage.setItem("id", data.id);
+    console.log(data.id)
+  }
+
+  const clearFormData = () => {
+    sessionStorage.setItem("id", "");
+  }
+
+
+
+
+  useEffect(() => {
+    getDepartmentMaster();
+  }, [])
+
+
   return (
     <Layout>
       <div>
@@ -37,7 +98,7 @@ function DepartmentMasterDashboard() {
 
               <Link href="/Masters/departmentmasterform"><button
                 className="btn btn-primary btn-sm shadow-lg"
-                id={Styles.addNew}
+                id={Styles.addNew} onClick={clearFormData.bind(this)}
               >
                 {/* <AiOutlinePlusCircle /> */}
                 ADD new
@@ -57,22 +118,30 @@ function DepartmentMasterDashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>test</td>
-                  <td>test</td>
+                {
+                  Department.map((data) => {
+                    return (
+                      <tr key={data.id}>
+                        <td>{data.department_name}</td>
+                        <td>{data.department_Desc}</td>
 
-                  <td>
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <button id={Styles.actionBtn}>Edit</button>
-                      </div>
+                        <td>
+                          <div className="row">
+                            <div className="col-lg-4">
+                              <Link href="/Masters/departmentmasterform">   <button id={Styles.actionBtn} onClick={getData.bind(this, data)}>Edit</button></Link>
+                            </div>
 
-                      <div className="col-lg-4">
-                        <button id={Styles.actionBtn}>Delete</button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                            <div className="col-lg-4">
+                              <button id={Styles.actionBtn} onClick={() => handleDelete(data.id)}>Delete</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    )
+                  })
+                }
+
               </tbody>
             </table>
           </div>

@@ -25,9 +25,25 @@ function LevelTypeForm() {
       })
 
     } else {
-      await axios.post(hostURL + "Master/UpdateLevelType", data)
-      sessionStorage.removeItem("id");
-      location.href = "/Masters/leveltypedashboard";
+      Swal.fire({
+        title: 'Are you sure to update?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, update it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.post(hostURL + "Master/UpdateLevelType", data)
+          sessionStorage.removeItem("id");
+          Swal.fire({
+            icon: "success",
+            titleText: "Updated Successfully"
+          })
+          location.href = "/Masters/leveltypedashboard";
+        }
+      })
+
     }
   }
 
@@ -43,18 +59,17 @@ function LevelTypeForm() {
   }
 
   let ID;
-  
+
   useEffect(() => {
     // getLevelType();
     clearForm();
     ID = sessionStorage.getItem("id")
-    if(ID)
-    {
+    if (ID) {
       getDataByID();
     }
   }, [])
 
-  const getDataByID = async () => {  
+  const getDataByID = async () => {
     console.log(ID)
     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
     let res = await axios.get(hostURL + "Master/GetLevelTypeByID?ID=" + ID)

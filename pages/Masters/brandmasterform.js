@@ -51,7 +51,7 @@ function BrandMasterForm() {
       } catch (error) {
         
       }
-      a
+      
      
     } else {
       await axios.post(hostURL + "Master/UpdateBrandMaster", data);

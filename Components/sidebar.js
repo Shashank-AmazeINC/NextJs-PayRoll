@@ -208,7 +208,7 @@ const  Sidebar=({ children }) => {
                             </Link>
 
                             <Link href="/Masters/citymasterdashboard/">
-                                <button className={SidebarStyles.sidesubmenu}>barangay master</button>
+                                <button className={SidebarStyles.sidesubmenu}>City master</button>
                             </Link>
 
                             <Link href="/Masters/barangaymasterdashboard/">

@@ -17,8 +17,8 @@ function LevelTypeDash() {
     const getID = (data) => {
         sessionStorage.setItem("id", data.id)
     }
-    const clearSessionData = () =>{
-        sessionStorage.setItem("id","");
+    const clearSessionData = () => {
+        sessionStorage.setItem("id", "");
     }
 
     const deleteLevelType = (id) => {
@@ -31,10 +31,14 @@ function LevelTypeDash() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-            if (result) {
+            if (result.isConfirmed) {
                 axios.get(hostURL + "Master/DeleteLevelType?ID=" + id)
-                getLevelType();
+                Swal.fire({
+                    icon: "success",
+                    titleText: "Deleted Successfully"
+                })
             }
+            getLevelType();
         })
 
     }

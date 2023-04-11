@@ -47,11 +47,10 @@ function PositionMasterDash() {
       <p id={Styles.title}>Position  Master</p>
       <div className="container-fluid mt-4">
         <div className="row shadow-lg p-2 rounded-4 p-3 ">
-          <div className="col-lg-1">
+          <div className="col-lg-2">
             <b>
               <p className="mt-2 text-center">
-                {" "}
-                <BiFilterAlt /> Filter by:{" "}
+                <BiFilterAlt />  Filter by:
               </p>
             </b>
           </div>
@@ -83,8 +82,8 @@ function PositionMasterDash() {
         <div className="container-fluid mt-4">
           <div className="row">
             <table className={table.commonTable}>
-              <thead>
-                <tr>
+              <thead >
+                <tr >
                   <th>Position Name</th>
                   <th>Description</th>
                   <th>Action</th>

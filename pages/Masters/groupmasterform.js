@@ -4,7 +4,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import Layout from '@/Components/layout';
 import Styles from '../../styles/groupMasterForm.module.css'
-
+import Swal from 'sweetalert2'
 function GroupMasterForm() {
     const [actionType, setActionType] = useState("insert");
     const { register, handleSubmit, reset, formState } = useForm();
@@ -15,10 +15,12 @@ function GroupMasterForm() {
     async function onSubmit(data) {
         if (actionType == "insert") {
             await axios.post(hostURL + "Master/InsertGroupMaster", data);
+            Swal.fire('Added Successfully')
             location.href = "/Masters/groupmaster";
         }
         else {
             await axios.post(hostURL + "Master/UpdateGroupMaster", data);
+            Swal.fire('Updated Successfully')
             sessionStorage.removeItem("groupMasterID");
             location.href = "/Masters/groupmaster";
         }
@@ -37,7 +39,6 @@ function GroupMasterForm() {
     }
 
     function clearForm(existingData = null) {
-       id = sessionStorage.getItem("id");
         let etty = {
             "ID": existingData ? existingData.id : "",  
             "Short": existingData ? existingData.short : "",

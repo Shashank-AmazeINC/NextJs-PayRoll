@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Layout from '@/Components/layout';
 import Link from 'next/link';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 function DepartmentMasterForm() {
 
 
@@ -24,12 +25,33 @@ function DepartmentMasterForm() {
 
 
             await axios.post(hostURL + 'Master/InsertDepartmentMaster', data);
+            Swal.fire({ icon: "success", text: "Data Successfully added" })
             location.href = ("/Masters/departmentmasterdashboard");
 
         }
         else {
-            await axios.post(hostURL + 'Master/UpdateDepartmentMaster', data);
-            alert("updated");
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Update it!'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    axios.post(hostURL + 'Master/UpdateDepartmentMaster', data);
+                    Swal.fire(
+                        'Updated!',
+                        'Your file has been updated.',
+                        'success'
+                    )
+                }
+            })
+
+
+
         }
 
     }
@@ -51,6 +73,7 @@ function DepartmentMasterForm() {
             debugger
             const id = sessionStorage.getItem("id");
             if (id) {
+
                 const response = await axios.get(hostURL + 'Master/GetDepartmentMasterByID?id=' + id);
                 clearForm(response.data[0])
             }
@@ -76,12 +99,33 @@ function DepartmentMasterForm() {
                     </div>
                     <div className="row ">
                         <div className="col-lg-2">
-                            <input name="DepartmentMaster" type="text" {...register('Department_name')} className={`form-control`} />
+                            <input name="DepartmentMaster" type="text" {...register('Department_name', {
+                                required: "Department Name is required", pattern: {
+
+                                    value: '^[A-Za-z0-9 ]+$',
+
+                                    message: "Please enter a valid Position Name"
+
+                                }
+                            })} className={`form-control`} />
+
+                            {errors.Department_name && <p className="error-message" style={{ color: "red" }}>{errors.Department_name.message}</p>}
+
                             {/* <div className="invalid-feedback">{errors.Department_name?.message}</div> */}
 
                         </div>
                         <div className="col-lg-4">
-                            <textarea rows="3" type="text"  {...register('Department_Desc')} placeholder="Description" className="form-control"></textarea>
+                            <textarea rows="3" type="text"  {...register('Department_Desc', {
+                                required: "Please add a Description ", pattern: {
+
+                                    value: '^[A-Za-z0-9 ]+$',
+
+                                    message: "Please enter a valid Position Name"
+
+                                }
+                            })} placeholder="Description" className="form-control"></textarea>
+                            {errors.Department_Desc && <p className="error-message" style={{ color: "red" }}>{errors.Department_Desc.message}</p>}
+
 
                         </div>
                     </div>

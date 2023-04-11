@@ -3,6 +3,8 @@ import Styles from "../../styles/employmentJobHistory.module.css";
 import Link from "next/link";
 import Layout from "@/Components/layout";
 import axios from "axios";
+import Swal from 'sweetalert2';
+
 function DepartmentMasterDashboard() {
 
   const [Department, setDepartmentMaster] = useState([])
@@ -16,11 +18,29 @@ function DepartmentMasterDashboard() {
   const handleDelete = async (id) => {
     try {
       let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-      const res = await axios.get(hostURL + `Master/DeleteDepartmentMaster?ID=${id}`);
-      console.log(res.data);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-      alert("Data deleted successfully");
-      getDepartmentMaster();
+          const res = axios.get(hostURL + `Master/DeleteDepartmentMaster?ID=${id}`);
+          console.log(res.data);
+          // alert("Data deleted successfully");
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        } getDepartmentMaster();
+
+      })
+
     } catch (error) {
       console.error(error);
       alert("Failed to delete data");

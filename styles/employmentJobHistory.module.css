@@ -1,13 +1,13 @@
-#title {
-   padding-left: 5px;
-   font-size: 19px;
-   font-weight: 700;
-   color: #3247d5;
-   font-style: normal;
-   margin-top: 0;
-   margin-bottom: 1rem;
-
-}
+#title{
+    padding-left: 5px;
+    font-size: 19px;
+     font-weight: 700;
+     color: #3247d5;
+     font-style: normal;
+     margin-top: 0;
+    margin-bottom: 1rem;
+    
+    }
 
 #addNew {
    font-style: normal;
@@ -58,7 +58,7 @@
    width: 100%;
    background-color: #ffffff;
    border-radius: 15px;
-   text-align: center;
+   /* text-align: center; */
    color: #0c275a;
    line-height: 17px;
    font-size: 14px;

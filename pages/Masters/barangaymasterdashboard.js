@@ -1,12 +1,48 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react';
 import Styles from '../../styles/BarangayMasterDash.module.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import Layout from '@/Components/layout'
+import barangaymasterform from './barangaymasterform'
+import axios from 'axios';
+import Swal from 'sweetalert2'
 
 
+export default function BarangayMasterDash() {
 
-function BarangayMasterDash() {
+    const [barangaymaster, setbarangaymaster] = useState([]);
+
+
+    const hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+
+    const getbarangaymaster = async () => {
+        let res = await axios.get(hostURL + "Master/GetBarangayMaster");
+        setbarangaymaster(res.data);
+    }
+    useEffect(() => {
+        getbarangaymaster()
+    }, [1])
+
+
+    const getData = (data) => {
+        sessionStorage.setItem("id", data.id);
+    }
+
+    const clearData = () => {
+        sessionStorage.setItem("id", "");
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            let res = await axios.get(hostURL + `Master/DeleteBarangayMaster?id=${id}`);
+            console.log(res.data);
+            Swal.fire('Data deleted successfully')
+            getbarangaymaster();
+        } catch (error) {
+            console.error(error);
+            Swal.fire('failed to  delete data')
+        }
+    };
 
 
     return (
@@ -29,7 +65,7 @@ function BarangayMasterDash() {
                 <div className='row mt-3'>
                     <div className='col-lg-9'></div>
                     <div className='col-lg-2'>
-                        <button id={Styles.addButton} >  <Link href="/Masters/barangaymasterform" id={Styles.addLink}> <AiOutlinePlusCircle size={15} /> ADD NEW</Link></button>
+                          <Link href="/Masters/barangaymasterform" id={Styles.addLink}><button id={Styles.addButton} onClick={clearData.bind(this)} > ADD NEW </button><AiOutlinePlusCircle size={15} /> </Link>
 
                     </div>
                     <div className='col-lg-1'></div>
@@ -38,6 +74,7 @@ function BarangayMasterDash() {
                 <table id={Styles.table} className='table table-sm table-striped mt-3 text-center'>
                     <thead>
                         <tr className='bg-info text-white '>
+
                             <th>Country Name</th>
                             <th>Province Name</th>
                             <th>City Name</th>
@@ -46,70 +83,27 @@ function BarangayMasterDash() {
                         </tr>
                     </thead>
                     <tbody>
+                        {
+                            barangaymaster.map((data, index) => {
+                                return (
+                                    <tr className="text-dark" key={index}>
+                                        <td>{data.countryname}</td>
+                                        <td>{data.statename}</td>
+                                        <td>{data.cityname}</td>
+                                        <td>{data.name}</td>
+                                        <td>
+                                            <Link href="/Masters/barangaymasterform">
+                                                <button className={Styles.actionButton} onClick={getData.bind(this, data)} >Edit</button>
+                                            </Link>
+                                            &nbsp;
 
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Philippines</td>
-                            <td>Eastern Samar</td>
-                            <td>Sulat</td>
-                            <td>A-et</td>
-                            <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            </td>
-                        </tr>
+                                            <button className={Styles.actionButton} onClick={() => handleDelete(data.id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+
                     </tbody>
                 </table>
 
@@ -123,5 +117,3 @@ function BarangayMasterDash() {
         </Layout>
     )
 }
-
-export default BarangayMasterDash

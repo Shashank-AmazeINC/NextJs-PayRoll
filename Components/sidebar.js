@@ -203,7 +203,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>country master</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Masters/statemasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>province master</button>
                             </Link>
 

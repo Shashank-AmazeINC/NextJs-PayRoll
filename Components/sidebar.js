@@ -207,6 +207,10 @@ function Sidebar({ children }) {
                                 <button className={SidebarStyles.sidesubmenu}>province master</button>
                             </Link>
 
+                            <Link href="/Masters/citymasterdashboard/">
+                                <button className={SidebarStyles.sidesubmenu}>barangay master</button>
+                            </Link>
+
                             <Link href="/Masters/barangaymasterdashboard/">
                                 <button className={SidebarStyles.sidesubmenu}>barangay master</button>
                             </Link>

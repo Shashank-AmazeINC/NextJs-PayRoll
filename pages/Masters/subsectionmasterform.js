@@ -85,7 +85,6 @@ const SubSectionMasterForm = () => {
                 <div className="row">
                   <div className="col-md-2">
                     <label className="fw-bold" style={customStyles.inputLabel}>
-                      {" "}
                       Name<span style={{ color: "red" }}>*</span>
                     </label>
                     <input

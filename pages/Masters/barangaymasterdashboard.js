@@ -50,7 +50,6 @@ export default function BarangayMasterDash() {
             <div>
                 <br />
                 <h5 id={Styles.h5}>Barangay Master</h5>
-
                 <div className='card shadow-lg p-4 rounded-3 mt-4' id={Styles.card}>
                     <div className='row'>
                         <div className='col-lg-1'>
@@ -65,7 +64,7 @@ export default function BarangayMasterDash() {
                 <div className='row mt-3'>
                     <div className='col-lg-9'></div>
                     <div className='col-lg-2'>
-                          <Link href="/Masters/barangaymasterform" id={Styles.addLink}><button id={Styles.addButton} onClick={clearData.bind(this)} > ADD NEW </button><AiOutlinePlusCircle size={15} /> </Link>
+                        <Link href="/Masters/barangaymasterform" id={Styles.addLink}><button id={Styles.addButton} onClick={clearData.bind(this)} > ADD NEW </button><AiOutlinePlusCircle size={15} /> </Link>
 
                     </div>
                     <div className='col-lg-1'></div>
@@ -106,13 +105,6 @@ export default function BarangayMasterDash() {
 
                     </tbody>
                 </table>
-
-
-
-
-
-
-
             </div>
         </Layout>
     )

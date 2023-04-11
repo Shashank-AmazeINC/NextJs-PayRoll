@@ -150,7 +150,7 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>company</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/annualtax">
                                 <button className={SidebarStyles.sidesubmenu}>annual tax</button>
                             </Link>
 
@@ -166,11 +166,11 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>philhealth</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/mpf">
                                 <button className={SidebarStyles.sidesubmenu}>mpf</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/pagibig">
                                 <button className={SidebarStyles.sidesubmenu}>pagibig</button>
                             </Link>
 

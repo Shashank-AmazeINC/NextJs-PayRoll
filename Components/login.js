@@ -1,98 +1,206 @@
-import React from 'react'
-import { useState } from 'react'
-import loginStyle from './login.module.css'
-import Loginpage from '../public/DigiLogin.png'
-import digiLogo from '../public/DigiLogo.png'
-import Image from 'next/image'
-function Login({children}) {
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import styles from "./login.module.css";
+import axios from "axios";
 
-    const [isLogin, setILogin] = useState("no");
+import eye from "../public/eye.svg";
+import Loginpage from "../public/images/DigiLogin.png";
+import digiLogo from "../public/images/DigiLogoBlue.png";
 
-    function login() {
-        setILogin("yes");
-        sessionStorage.setItem("isLogin", "yes");
-        window.location.href = "/Home/dashboard";
-    }
-
-    function logout() {
-        setILogin("no");
-        sessionStorage.clear();
-        sessionStorage.setItem("isLogin", "no");
-        location.href = "";
-    }
-
-    return (
-        <div>
-            <div className='container-fluid'>
-
-                <div className='card' id={loginStyle.card}>
-                    <div className='row mt-5'>
-
-                        <div className='col-lg-2'></div>
-                        <div className='col-lg-4'>
-                            <Image src={digiLogo} alt="digiLogo" width={250} />
-                            <select className='form-select' >
-                                <option>Select Company</option>
-                                <option>Company 1</option>
-                            </select>
-                            <select className='form-select mt-2'>
-                                <option>Select Position</option>
-                                <option></option>
-                                <option>Manager</option>
-                                <option>Employee</option>
-                                <option>Payroll Manager</option>
-                                <option>SBU</option>
-                                <option>IT Team</option>
-                                <option>HR Head</option>
-                            </select>
-
-                            <div className='form-floating mt-2'>
-
-                                <input type="text" className='form-control' id={loginStyle.inputField} placeholder='Enter your Username' />
-                                <label>UserName</label>
-
-                            </div>
-
-                            <div className='form-floating mt-2 '>
-                                <input  size="4" className='form-control' placeholder='Enter your Password' />
-                                <label >Password </label>
-                                
+const Login = ({ makelogin }) => {
+  const positionList= [
+    { id: 2, short: "Manager" },
+    { id: 6, short: "Employee" },
+    { id: 9, short: "HR" },
+    { id: 17, short: "Payroll Manager" },
+    { id: 10, short: "SBU" },
+    { id: 11, short: "IT Team" },
+    { id: 12, short: "HR Head" },
+  ];
+  const companyList = [
+    { id: 1001, short: "Company 1" },
+  ];
 
 
-                            </div>
+  const [passwordShown, setPasswordShown] = useState("");
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
+  };
 
-                            <div className='row mt-2'>
-                                <div className='col-lg-6'>
-                                    <a className={loginStyle.loginLink} href='#' >Forgot password? </a>
-                                </div>
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  // const onSubmit = data => console.log('form submit', data);
 
-                                <div className='col-lg-6'>
-                                    <button onClick={login} className='btn btn-primary btn-sm text-right ' id={loginStyle.loginButton}>Login with 365 </button>
+  const onSubmit = async (data) => {
+    makelogin();
+    // let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    // const res = await axios.get(hostURL + `Master/StaffValidateUserLogin?EmailID=${data.username}&Password=${data.password}`);
 
-                                </div>
-                            </div>
-                            <br />
-                            <p> <b> Copyright © 2022 AMAZE ONE. All Rights Reserved </b>
-                            </p>
+    // if (res.data[0].status == "Valid") {
+    //     sessionStorage.setItem("userID", res.data[0].id);
+    //     sessionStorage.setItem("userName", res.data[0].name);
+    //     sessionStorage.setItem("roleID", res.data[0].roleID);
+    //     makelogin();
+    // }
+    // else {
+    //     alert("Invalid credentials");
+    // }
+  };
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "50%",
+    },
+    errorMsg: {
+      fontSize: "12px",
+      fontWeight: "500",
+      color: "red",
+    },
+    inputLabel: {
+      fontSize: "16px",
+    },
+  };
 
-                        </div>
-                        <div className='col-lg-4 '>
-                            <Image src={Loginpage} alt="DigiLogin" width={350} />
-                        </div>
+  return (
+    <div
+      className="row"
+      style={{
+        backgroundColor: "#95a0e2",
+        height: "100vh",
+        paddingTop: "5%",
+      }}
+    >
+      <div className="col-lg-3"></div>
+      <div className="col-lg-6">
+        <div className="row">
+          <div className={"col-lg-6 " + styles.logincard}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Image src={digiLogo} alt="digiLogo" width={250} />
+               <div>
+                <select
+                  className="form-select "
+                  {...register("CompanyID", { required: true })}
+                >
+                  <option value="">Select Company</option>
+                  {companyList.map((Company) => {
+                    return (
+                      <option key={Company.id} value={Company.id}>
+                        {Company.short}
+                      </option>
+                    );
+                  })}
+                </select>
+                {errors.CompanyID && (
+                  <span style={customStyles.errorMsg}>
+                    Please select Company
+                  </span>
+                )}
+              </div>
+              <div>
+                <select
+                  className="form-select mt-4"
+                  {...register("RoleID", { required: true })}
+                >
+                  <option value="">Select Position</option>
+                  {positionList.map((position) => {
+                    return (
+                      <option key={position.id} value={position.id}>
+                        {position.short}
+                      </option>
+                    );
+                  })}
+                </select>
+                {errors.RoleID && (
+                  <span style={customStyles.errorMsg}>
+                    Please select Position
+                  </span>
+                )}
+              </div>
 
-                    </div>
+              <div className="form-floating mt-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter your Username"
+                  {...register("Username", { required: true })}
+                />
+                <label>UserName</label>
+                {errors.Username && (
+                  <span style={customStyles.errorMsg}>
+                    Please Enter Username
+                  </span>
+                )}
+              </div>
+
+              <div className={"form-floating mt-2"}>
+                <input
+                  type={passwordShown ? "text" : "password"}
+                  size="4"
+                  className="form-control"
+                  placeholder="Enter your Password"
+                  {...register("Password", { required: true })}
+                />
+                <label>Password </label>
+                <Image
+                  className={styles.inputwrapper}
+                  src={eye}
+                  onClick={togglePassword}
+                  alt="eye"
+                  width={25}
+                  height="auto"
+                />
+                {errors.Password && (
+                  <span style={customStyles.errorMsg}>
+                    Please Enter Password
+                  </span>
+                )}
+              </div>
+
+              <div className="row mt-2">
+                <div className="col-lg-6">
+                  <a className={styles.anchorlink} href="#">
+                    Forgot password ?
+                  </a>
                 </div>
 
-
+                <div className="col-lg-6">
+                  {/* <Link href='/Home/Dashboard'> */}
+                  <button className={styles.loginbtn}>Login with 365</button>
+                  {/* </Link> */}
+                </div>
+              </div>
+            </form>
+          </div>
+          <div
+            className={"col-lg-6 " + styles.divNegate}
+            style={{ position: "relative" }}
+          >
+            <Image
+              src={Loginpage}
+              alt="DigiLogin"
+              style={{ width: "100%", height: "auto" }}
+            />
+            <div className={styles.content}>
+              <h1>Secured and Easy to Use</h1>
+              <p>Smart all-in-one software for HR operations</p>
             </div>
-            <br />
-            <br />
-            <p className='text-center'> <b> Copyright © 2022 AMAZE ONE. All Rights Reserved </b></p>
-
-
+          </div>
         </div>
-    )
-}
+      </div>
+      <div className="col-lg-3"></div>
+    </div>
+  );
+};
 
-export default Login
+export default Login;

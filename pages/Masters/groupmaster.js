@@ -3,31 +3,45 @@ import Link from 'next/link'
 import axios from 'axios';
 import Layout from '@/Components/layout';
 import Styles from '../../styles/GroupMaster.module.css'
+import Swal from 'sweetalert2'
 function GroupMaster() {
 
     const [groupMaster, setGroupMasterData] = useState([]);
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
 
     useEffect(() => {
-        async function getData() {
-            let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-          let res = await axios.get(
-            hostURL +"Master/GetGroupMaster"
-          );
-          setGroupMasterData(res.data);
-        }
         getData();
-      }, [1]);
+    }, []);
+
+    async function getData() {
+        let res = await axios.get(
+          hostURL +"Master/GetGroupMaster"
+        );
+        setGroupMasterData(res.data);
+    }
 
     const deleteGroupData = async (id) => {
-        let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-        await axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
-        let res = await axios.get(hostURL + "Master/GetGroupMaster");
-        setGroupMasterData(res.data);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.get(hostURL + "Master/DeleteGroupMaster?ID=" + id);
+                getData();
+            }
+          });
     }
     const edit = async (id)=>{
         sessionStorage.setItem("groupMasterID", id);
-      }
-
+    }
+      const clearSession = async ()=>{
+        sessionStorage.setItem("groupMasterID","")
+    }
     return (
         <Layout>
             <div>
@@ -37,7 +51,6 @@ function GroupMaster() {
                         <div className='col-lg-1'>
                             <p>Filter By</p>
                         </div>
-
                         <div className='col-lg-5'>
                             <input type="text" className='form-control' placeholder='Search...' />
                         </div>
@@ -49,12 +62,11 @@ function GroupMaster() {
                     </div>
                     <div className='col-lg-8'></div>
                     <div className='col-lg-2 mt-2 text-end'>
-                        <Link href="/Masters/groupmasterform" id='AddButton' className='btn btn-primary fw-bold'>
+                        <Link href="/Masters/groupmasterform" onClick={clearSession} id='AddButton' className='btn btn-primary fw-bold'>
                             Add
                         </Link>
                     </div>
                 </div>
-
                 <table className='table table-hover mt-4 '>
                     <thead className='bg-info text-white '>
                         <tr>
@@ -86,5 +98,4 @@ function GroupMaster() {
         </Layout>
     )
 }
-
 export default GroupMaster

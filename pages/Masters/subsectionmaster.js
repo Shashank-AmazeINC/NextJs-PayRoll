@@ -18,13 +18,15 @@ const SubSectionMaster = () => {
     sessionStorage.setItem("id", "");
   };
   useEffect(() => {
-    async function getData() {
-      let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
-      let res = await axios.get(hostURL + "Master/GetSubSectionMaster");
-      SetSubsectionData(res.data);
-    }
     getData();
   }, [1]);
+
+  const getData= async ()=> {
+    let res = await axios.get(hostURL + "Master/GetSubSectionMaster");
+    SetSubsectionData(res.data);
+  }
+
+
 
   const handelDelete = (id) => {
     debugger;
@@ -38,15 +40,13 @@ const SubSectionMaster = () => {
       confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let res = await axios
-          .get(hostURL + "Master/DeleteSubSectionMaster?ID=" + id)
-          .then(async (value) => {
+        await axios.get(hostURL + "Master/DeleteSubSectionMaster?ID=" + id)
             Swal.fire("SubSection Deleted successfully.");
             getData();
-          });
-      }
-    });
+    }
+});
   };
+
   return (
     <Layout>
       <br />

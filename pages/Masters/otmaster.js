@@ -12,7 +12,7 @@ function Otmaster() {
   const [actionType, setActionType] = useState("insert");
 
   useEffect(() => {
-    async function getstudentList() {
+    async function otList() {
       debugger
       const id = sessionStorage.getItem("id");
       if (id) {
@@ -24,7 +24,7 @@ function Otmaster() {
         clearForm();
       }
     }
-    getstudentList();
+    otList();
   }, [1]);
 
   function clearForm(otData = null) {
@@ -68,7 +68,7 @@ function Otmaster() {
   return (
     <Layout>
       <div>
-        <br></br> <p id={Styles.title}>OT Master</p>
+         <p id={Styles.title}>OT Master</p>
         <div className="container-fluid">
           <div className={Styles.rowcss}>
             <div className="col-md-12">
@@ -99,8 +99,9 @@ function Otmaster() {
                     </div>
                     <div className="col-md-4">
                       <label > OT<span style={{ color: "red" }}>*</span></label>
-                      <input type="text" name="ot" className='form-control' {...register("OT", {
-                        required: "This field is required", pattern: { value: '^[0-9 .]+$', message: "Please enter valid Details" }
+                      <input type="text" name="ot" className='form-control'  onkeypress='return ((event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 46))' {...register("OT", {
+                        required: "This field is required", pattern: { value: '^[0-9 .]+$', message: "Please enter valid Details"
+                       }
                       })} />
                       {errors.OT && <p className="error-message" style={{ color: "red" }}>{errors.OT.message}</p>}
                     </div>

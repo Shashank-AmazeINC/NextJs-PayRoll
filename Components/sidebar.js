@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import SidebarStyles from './layout.module.css'
 
-function Sidebar({ children }) {
+const  Sidebar=({ children }) => {
     let [displayAttendence, toggleAttendence] = useState(false)
     let [displayLoans, toggleLoans] = useState(false)
     let [displayPayroll, togglePayRoll] = useState(false)
@@ -33,7 +33,7 @@ function Sidebar({ children }) {
         toggleMasters(!displayMasters);
     };
     return (
-        <div className='row' style={{ height: "100vh", overflowY: "auto" }}>
+        <div className='row' style={{ height: "90vh", overflowY: "auto"}}>
             <div className='col-lg-12'>
                 <Link href="/Home/dashboard" >
                     <button className={SidebarStyles.sidemenu}>Home</button>

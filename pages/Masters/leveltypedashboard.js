@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Layout from '@/Components/layout'
 import axios from 'axios'
 import Swal from 'sweetalert2';
-import { useState, useEffect } from 'react'
 
 function LevelTypeDash() {
 

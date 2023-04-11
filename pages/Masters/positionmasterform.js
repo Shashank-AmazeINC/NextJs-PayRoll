@@ -70,30 +70,31 @@ function PositionMasterDetails() {
                     <div className={Styles.rowcss}>
                         <div className="col-md-12">
                             <div className="row">
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <h3 className="Heading">Postion Master Deatils</h3>
                                 </div>
                                 <div className="col-lg-8">
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-1">
                                 </div>
                             </div>
 
+
                             <div className={Styles.cardcss}>
 
-                                <div className="row leavereq">
+                                <div className="row leavereq ">
                                     <div className="col-md-2">
-                                        <label >Position Name<span style={{ color: "red" }}>*</span></label>
+                                        <label >Position Name<span className="text-danger">*</span></label>
                                     </div>
                                     <div className="col-md-4">
-                                        <label > Description<span style={{ color: "red" }}>*</span>
+                                        <label > Description<span className="text-danger">*</span>
                                         </label>
                                     </div>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="row leavereq">
                                         <div className="col-md-2">
-                                            <input type="text"{...register('Short', {
+                                            <input type="text" className="form-control form-control-md"{...register('Short', {
 
                                                 required: "Please add a Position Name", pattern: {
 
@@ -105,15 +106,14 @@ function PositionMasterDetails() {
 
                                             })} placeholder="Position Name" />
 
-                                            {errors.positionName && <p className="error-message" style={{ color: "red" }}>{errors.positionName.message}</p>}
-                                            {/* <div className="invalid-feedback">{errors.Name?.message}</div> */}
+                                            {errors.Short && <p className="error-message" style={{ color: "red" }}>{errors.Short.message}</p>}
+
                                         </div>
                                         <div className="col-md-4">
                                             <input name="Description"   {...register("Description", { required: true })} rows="3" type="text" placeholder='Description' className={`form-control `} />
                                             {
                                                 errors.Description && <p className='text-danger'>Description is Required</p>
                                             }
-                                            {/* <div className="invalid-feedback">{errors.Description?.message}</div> */}
                                         </div>
                                     </div>
                                     <br />
@@ -127,7 +127,7 @@ function PositionMasterDetails() {
                                         <div className="col-lg-2">
                                             {actionType == "insert" && (
 
-                                                <button type="submit" id='AddButton' className="btn btn-primary">
+                                                <button type="submit" id={Styles.actionBtn} className="btn btn-primary">
 
                                                     Save
 

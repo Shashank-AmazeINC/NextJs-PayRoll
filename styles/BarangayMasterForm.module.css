@@ -16,12 +16,13 @@
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
-   
+    border: 1px solid rgba(0, 0, 0, .125);
+
 }
-.button{
-    width:103%;
-     background-color: #3247d5;
+
+.button {
+    width: 103%;
+    background-color: #3247d5;
     color: #fff;
     border-radius: 6px;
     border: none;
@@ -38,6 +39,17 @@
     overflow: visible;
     margin: 0;
 }
-.span{
+
+.span {
     color: red;
+}
+
+.selecter {
+    width: 100%;
+    padding: 3px;
+    border-radius: 6px;
+    font-size: 16px;
+    color: #333;
+    padding: 8px;
+    border: 1px solid #ccc;
 }

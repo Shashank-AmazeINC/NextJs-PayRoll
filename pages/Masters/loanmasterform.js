@@ -3,11 +3,67 @@ import Styles from '../../styles/LoanMasterForm.module.css'
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Layout from '@/Components/layout';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 function LoanMasterForm() {
 
-    // get functions to build form with useForm() hook
-    const { register, handleSubmit, reset, formState } = useForm();
-    const { errors } = formState;
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+  const [actionType, setActionType] = useState("insert");
+  // form validation rules
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { errors } = formState;
+
+  // get functions to build form with useForm() hook
+  useEffect(() => {
+    const getSubSectionMasterList = async () => {
+      debugger;
+      const id = sessionStorage.getItem("id");
+      if (id) {
+        const response = await axios.get(
+          hostURL + "Master/GetLoanMasterByID?ID=" + id
+        );
+        clearForm(response.data[0]);
+      } else {
+        clearForm();
+      }
+    };
+    getSubSectionMasterList();
+  }, [1]);
+
+  const onSubmit = async (data) => {
+    debugger;
+    console.log(data);
+    if (actionType == "insert") {
+      await axios.post(hostURL + "Master/InsertLoanMaster", data);
+      Swal.fire("SubSectionMaster Inserted succefully!");
+      location.href = "/Masters/loanmasterdashboard";
+    } else {
+      let res = await axios.post(hostURL + "Master/UpdateLoanMaster", data);
+      sessionStorage.removeItem("id");
+      Swal.fire("SubSectionMaster updated succefully!");
+      location.href = "/Masters/loanmasterdashboard";
+    }
+  };
+  const clearForm = (existingData = null) => {
+    let etty = {
+      ID: existingData ? existingData.id : "",
+      Type: existingData ? existingData.type : "",
+      Description: existingData ? existingData.description : "",
+    };
+    reset(etty);
+    setActionType(existingData ? "update" : "insert");
+  };
+  const customStyles = {
+    errorMsg: {
+      fontSize: "12px",
+      fontWeight: "500",
+      color: "red",
+    },
+    inputLabel: {
+      fontSize: "16px",
+    },
+  };
 
 
 
@@ -15,41 +71,77 @@ function LoanMasterForm() {
         <Layout>
             <div>
                 <h4 className='text-primary '>Loan Type</h4>
-                <form >
-                    <div className="card shadow-lg mt-4 p-3" id={Styles.card}>
-                        <div className="row ">
-                            <div className="col-lg-2">
-                                <label >Loan Type<span id={Styles.span}>*</span></label>
-                            </div>
-                            <div className="col-lg-4">
-                                <label >Loan Description<span id={Styles.span}>*</span></label>
-                            </div>
-                        </div>
-                        <div className="row ">
-                            <div className="col-lg-2">
-                                <input placeholder='Loan type' name="LoanMaster" type="text" {...register('LoanMaster')} className={`form-control ${errors.LoanMaster ? 'is-invalid' : ''}`} />
-                                <div className="invalid-feedback">{errors.LoanMaster?.message}</div>
-                                {/* <input type="text" placeholder="Loan Type" className="form-control" /> */}
-                            </div>
+                <form  onSubmit={handleSubmit(onSubmit)} >
+                <div className={Styles.card}>
+                <div className="row">
+                  <div className="col-md-2">
+                    <label className="fw-bold" style={customStyles.inputLabel}>
+                    Loan Type<span style={{ color: "red" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Loan Type"
+                      {...register("Type", { required: true })}
+                    ></input>
+                    {errors.Type && (
+                      <span style={customStyles.errorMsg}>
+                        Please Loan Type
+                      </span>
+                    )}
+                  </div>
 
-                            <div className="col-lg-4">
-                                <textarea type="text" placeholder="Description" className="form-control"></textarea>
+                  <div className="col-md-4">
+                    <label className="fw-bold" style={customStyles.inputLabel}>
+                      Description<span style={{ color: "red" }}>*</span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      name="Description"
+                      rows="3"
+                      type="text"
+                      {...register("Description", { required: true })}
+                      placeholder="Description"
+                    />
+                    {errors.Description && (
+                      <span style={customStyles.errorMsg}>
+                        Please Enter Description
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-                            </div>
-                        </div>
-                        <br /><br />
-                        <div className="row">
-                            <div className="col-lg-8"></div>
-
-                            <div className="col-lg-2">
-                                <Link href=""><button className=" btn btn-primary form-control " >Cancel</button></Link>
-                            </div>
-                            <div className="col-lg-2">
-                                <button className=" btn btn-primary form-control ">Submit</button>
-                            </div>
-                        </div>
-
-                    </div>
+              <br />
+              <br />
+              <div className="row">
+                <div className="col-lg-7"></div>
+                <div className="col-lg-2">
+                  <Link href="/Masters/loanmasterdashboard">
+                    <button className={Styles.button}>
+                      Cancel
+                    </button>
+                  </Link>
+                </div>
+                <div className="col-lg-2">
+                  {actionType == "insert" && (
+                    <button
+                      type="submit"
+                      className={Styles.button}
+                    >
+                      Save
+                    </button>
+                  )}
+                  {actionType == "update" && (
+                    <button
+                      type="submit"
+                      className={Styles.button}
+                    >
+                      Update
+                    </button>
+                  )}
+                </div>
+              </div>
                 </form>
             </div >
         </Layout>

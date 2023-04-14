@@ -54,24 +54,28 @@ const SubSectionMaster = () => {
         SubSection Master
       </h5>
       <div className="card p-3  shadow-lg rounded-4" id={Styles.card}>
-        <div class="row">
-          <div class="col-lg-1">
+        <div className="row">
+          <div className="col-lg-1">
             <p>Filter By</p>
           </div>
-          <div class="col-lg-5">
+          <div className="col-lg-5">
             <input
               type="text"
               placeholder="Search"
               id="term"
-              class="form-control "
+              className="form-control "
             />
           </div>
-          <div class="col-lg-3"></div>
-          <div class="col-lg-3"></div>
+          <div className="col-lg-3"></div>
+          <div className="col-lg-3"></div>
         </div>
       </div>
       <div className="row mt-3">
-        <div className="col-lg-7"></div>
+        <div className="col-lg-7">
+        <p id={Styles.h5} className="text-primary fs-6 mt-3 fw-bold">
+              SHOWING <span>{subsection.length} </span>RESULTS
+            </p>
+        </div>
         <div className="col-lg-4">
           <Link
             className="btn btn-primary btn-sm "
@@ -79,8 +83,7 @@ const SubSectionMaster = () => {
             href="/Masters/subsectionmasterform"
             onClick={clearData.bind(this)}
           >
-            {" "}
-            <AiOutlinePlusCircle size={18} /> ADD NEW{" "}
+            <AiOutlinePlusCircle size={18} /> ADD NEW
           </Link>
         </div>
       </div>

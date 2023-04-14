@@ -1,9 +1,53 @@
-import React from 'react'
-import Styles from '../../styles/sss.module.css'
-import Link from 'next/link'
+import React from 'react';
+import Styles from '../../styles/sss.module.css';
+import Link from 'next/link';
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import Layout from "@/Components/layout";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useEffect, useState } from 'react';
 
-function sss() {
+const Sss=()=> {
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+  const [sssData, SetSssData] = useState([]);
+
+  const getDataByID = (data) => {
+    sessionStorage.setItem("id", data.id);
+  };
+  const clearData = () => {
+    sessionStorage.setItem("id", "");
+  };
+  useEffect(() => {
+    getData();
+  }, [1]);
+
+  const getData= async ()=> {
+    let res = await axios.get(hostURL + "HR/GetSSSconfogaration");
+    SetSssData(res.data);
+  }
+
+
+
+  const handelDelete = (id) => {
+    debugger;
+    Swal.fire({
+      title: "Are you sure want to delete ?",
+      text: "",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3247d5",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axios.get(hostURL + "HR/DeleteSSSconfogaration?ID=" + id)
+            Swal.fire("SSS Deleted successfully.");
+            getData();
+    }
+});
+  };
     return (
+        <Layout>
         <div>
             <br />
             <p id={Styles.p}>SSS Configuration</p>
@@ -21,7 +65,10 @@ function sss() {
                 <div className='col-lg-11'></div>
                 <div className='col-lg-1'>
 
-                    <Link href="/configuration/sssconfigadd" id={Styles.addLink} >  <button id={Styles.addButton}>  ADD </button></Link>
+                    <Link href="/Configuration/sssconfigadd"  
+                    onClick={clearData.bind(this)}
+                    id={Styles.addLink} > 
+                     <button id={Styles.addButton} > <AiOutlinePlusCircle size={18} />  ADD </button></Link>
 
                 </div>
 
@@ -40,72 +87,42 @@ function sss() {
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr>
-                        <td>0</td>
-                        <td>10000</td>
-                        <td>200</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>0</td>
-                        <td>10000</td>
-                        <td>200</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>0</td>
-                        <td>10000</td>
-                        <td>200</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>0</td>
-                        <td>10000</td>
-                        <td>200</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>0</td>
-                        <td>10000</td>
-                        <td>200</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td>2023</td>
-                        <td><button id={Styles.actionButton} className='btn btn-sm'>Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button id={Styles.actionButton} className='btn btn-sm'>Delete</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                    </tr>
-
-                </tbody>
+              {sssData.map((data, index) => {
+                return (
+                  <tr className="text-dark" key={index}>
+                    <td>{data.taxiableincomelowlimit}</td>
+                    <td>{data.taxiableincomehighlimit}</td>
+                    <td>{data.ssS_EEvalue}</td>
+                    <td>{data.ssS_ERvalue}</td>
+                    <td>{data.ssS_Ecvalue}</td>
+                    <td>{data.year}</td>
+                    <td>
+                      <Link href="/Configuration/sssconfigadd">
+                        <button
+                          id={Styles.actionButton}
+                          style={{ fontSize: "12px", marginRight: "5%" }}
+                          onClick={getDataByID.bind(this, data)}
+                        >
+                          Edit
+                        </button>
+                      </Link>
+                      <button
+                        id={Styles.actionButton}
+                        style={{ fontSize: "12px" }}
+                        onClick={() => handelDelete(data.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
             </table>
 
         </div>
+        </Layout>
     )
 }
 
-export default sss
+export default Sss;

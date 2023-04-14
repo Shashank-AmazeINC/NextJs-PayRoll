@@ -92,9 +92,9 @@ export default function BarangayMasterForm() {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="row">
                                 <div className="col-lg-3">
-                                    <label htmlFor="">Country Name  </label> <br />
+                                    <label className={Barangay.labels}>Country Name<span style={{ color: "red" }}>*</span>  </label> <br />
                                     <select className={Barangay.selecter} {...register("CountryID", { required: true })}>
-                                        <option value="">Select Country</option>
+                                        <option value="" className={Barangay.options}>Select Country</option>
                                         {
                                             countrydata.map((data) => {
                                                 return (
@@ -103,11 +103,12 @@ export default function BarangayMasterForm() {
                                             })
                                         }
                                     </select>
+                                    {errors.CountryID && <p style={{ color: "red" }} className="error">Please select a country</p>}
                                 </div>
                                 <div className="col-lg-3">
-                                    <label htmlFor="">Province</label><br />
+                                    <label className={Barangay.labels}>Province<span style={{ color: "red" }}>*</span></label><br />
                                     <select className={Barangay.selecter} {...register("ProvinceID", { required: true })}>
-                                        <option value="">Select Country</option>
+                                        <option value="">Select State</option>
                                         {
                                             provincedata.map((data) => {
                                                 return (
@@ -116,11 +117,13 @@ export default function BarangayMasterForm() {
                                             })
                                         }
                                     </select>
+                                    {errors.ProvinceID && <p style={{ color: "red" }} className="error">Please select a Province</p>}
+
                                 </div>
                                 <div className="col-lg-3">
-                                    <label htmlFor="">City </label><br />
+                                    <label className={Barangay.labels}>City<span style={{ color: "red" }}>*</span> </label><br />
                                     <select className={Barangay.selecter} {...register("CityID", { required: true })}>
-                                        <option value="">Select Country</option>
+                                        <option value="">Select City</option>
                                         {
                                             citydata.map((data) => {
                                                 return (
@@ -129,10 +132,14 @@ export default function BarangayMasterForm() {
                                             })
                                         }
                                     </select>
+                                    {errors.CityID && <p style={{ color: "red" }} className="error">Please select a City</p>}
+
                                 </div>
                                 <div className="col-lg-3">
-                                    <label htmlFor="">Barangay</label><br />
+                                    <label className={Barangay.labels}>Barangay<span style={{ color: "red" }}>*</span> </label><br />
                                     <input type="text" className={Barangay.selecter} {...register('Name', { required: true })} />
+                                    {errors.Name && <p style={{ color: "red" }} className="error">Please Enter a Barangay</p>}
+
                                 </div>
                             </div>
                             <br />

@@ -3,8 +3,87 @@ import citymaster from "../../styles/CityMasterDashboard.module.css";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Layout from "@/Components/layout";
+import { useEffect, useState } from "react";
+import axios from 'axios'
+import Swal from "sweetalert2";
 
 function CityMasterDash() {
+
+  const [CityMaster, setCityMaster] = useState([]);
+
+  const getCityMaster = async () => {
+    let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+    let res = await axios.get(hostURL + "Master/GetCityType");
+    setCityMaster(res.data);
+  };
+
+  useEffect(() => {
+    getCityMaster();
+  }, [1]);
+
+  const getCityMasterData = (data) => {
+    sessionStorage.setItem("id", data.id);
+    console.log(data.id);
+  };
+
+  const clearFormData = () => {
+    sessionStorage.setItem("id", "");
+  };
+
+
+  // async function DeleteCityMaster(id) {
+  //   debugger;
+  //   try {
+  //     let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+  //     Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You won't be able to revert this!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, delete it!",
+  //     }).then((res) => {
+  //       if (res) {
+  //         axios.get(hostURL + `Master/DeleteCityType?id=${id}`);          
+  //       }
+  //       getCityMaster();
+  //     });
+  //   } 
+  //   catch (error) {
+  //     console.error(error);
+  //     alert("Failed to delete data");
+  //   }
+  // }
+  async function DeleteCityMaster(id) {
+    debugger;
+    try {
+      let hostURL = process.env.NEXT_PUBLIC_API_HOST_URL;
+      
+      const res = await axios.get(
+        hostURL + `Master/DeleteCityType?id=${id}`
+      );
+      console.log(res.data);
+      Swal.fire({
+        icon: "success",
+        title: "Hurray...",
+        text: "Data was deleted..!",
+      });
+      getCityMaster();
+    } 
+    catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Data was not deleted..!",
+      });
+    }
+  }
+
+
+
+
   return (
     <Layout>
       <div className="container">
@@ -54,29 +133,13 @@ function CityMasterDash() {
           </div>
           <div className="col-md-2">
             <Link href="/Masters/citymasterform">
-              <button className={citymaster.button} tabIndex="0">
+              <button className={citymaster.button} tabIndex="0" onClick={clearFormData.bind(this)}>
                 Add New
               </button>
             </Link>
           </div>
         </div>
         <br />
-        <div className="alignForm"></div>
-        <div className="row">
-          <div className="col-md-12">
-            <table class="table table-striped table-hover mt-4">
-              <thead className="bg-info text-white ">
-                <tr>
-                  <th>Country Name</th>
-                  <th>Province Name</th>
-                  <th>City Name</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-        </div>
       </div>
       <br />
       <div className="alignForm"></div>
@@ -92,6 +155,25 @@ function CityMasterDash() {
                 <th>Action</th>
               </tr>
             </thead>
+            <tbody>
+              {
+              CityMaster.map((data) => {
+                return (
+                  <tr key={data.id}>
+                    <td>{data.country}</td>
+                    <td>{data.state}</td>
+                    <td>{data.short}</td>
+                    <td>{data.description}</td>
+                    <td>
+                      <Link href="/Masters/citymasterform">
+                        <button className="btn btn-primary"onClick={getCityMasterData.bind(this, data)}>Edit</button></Link>
+                      &nbsp;
+                      <button className="btn btn-primary" onClick={() => DeleteCityMaster(data.id)}>Delete{" "}</button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>

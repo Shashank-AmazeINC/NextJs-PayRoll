@@ -68,3 +68,12 @@
     transform: scale(1.5);
 
 }
+.commonEditDelete {
+    width: 20px;
+    margin-left: 10%;
+}
+#h5 {
+    font-family: Poppins;
+    margin-left: 20px;
+    color: #3247d5;
+}

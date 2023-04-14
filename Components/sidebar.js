@@ -150,33 +150,35 @@ const  Sidebar=({ children }) => {
                                 <button className={SidebarStyles.sidesubmenu}>company</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/annualtax">
                                 <button className={SidebarStyles.sidesubmenu}>annual tax</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/semitax">
                                 <button className={SidebarStyles.sidesubmenu}>semi monthly tax</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/sss">
                                 <button className={SidebarStyles.sidesubmenu}>sss</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/philhealth">
                                 <button className={SidebarStyles.sidesubmenu}>philhealth</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/mpf">
                                 <button className={SidebarStyles.sidesubmenu}>mpf</button>
                             </Link>
 
-                            <Link href="">
+                            <Link href="/Configuration/pagibig">
                                 <button className={SidebarStyles.sidesubmenu}>pagibig</button>
                             </Link>
 
                             <Link href="">
                                 <button className={SidebarStyles.sidesubmenu}>daily rate</button>
                             </Link>
+
+                           
                         </div>
 
                     )
@@ -208,7 +210,7 @@ const  Sidebar=({ children }) => {
                             </Link>
 
                             <Link href="/Masters/citymasterdashboard/">
-                                <button className={SidebarStyles.sidesubmenu}>barangay master</button>
+                                <button className={SidebarStyles.sidesubmenu}>City master</button>
                             </Link>
 
                             <Link href="/Masters/barangaymasterdashboard/">

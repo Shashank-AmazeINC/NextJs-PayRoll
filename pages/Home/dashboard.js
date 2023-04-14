@@ -17,11 +17,11 @@ function Dashboard() {
   return (
     <Layout>
 
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="row">
-              <div class="col-md-12">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <div className="row">
+              <div className="col-md-12">
                 <div className="card  mb-4">
                   <div
                     className="card-body"
@@ -41,14 +41,14 @@ function Dashboard() {
                     </p>
                   </div>
                   <br></br>
-                  <div class="row"  >
-                    <div class="col-md-6">
-                      <button class="btn btn-outline-secondary w-100 btnCount">
+                  <div className="row"  >
+                    <div className="col-md-6">
+                      <button className="btn btn-outline-secondary w-100 btnCount">
                         {count} Pending
                       </button>
                     </div>
-                    <div class="col-md-6">
-                      <button class="btn  btn-outline-secondary  w-100">
+                    <div className="col-md-6">
+                      <button className="btn  btn-outline-secondary  w-100">
                         {count} Pending
                       </button>
                     </div>
@@ -56,14 +56,14 @@ function Dashboard() {
 
                   <br></br>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <button class="btn btn-outline-secondary w-100">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <button className="btn btn-outline-secondary w-100">
                         {count} Pending
                       </button>
                     </div>
-                    <div class="col-md-6">
-                      <button class="btn btn-outline-secondary w-100">
+                    <div className="col-md-6">
+                      <button className="btn btn-outline-secondary w-100">
                         {count} Pending
                       </button>
                       <br></br>
@@ -72,22 +72,22 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12">
+            <div className="row">
+              <div className="col-md-12">
                 <div className="card">
                   <div
                     className="card-body"
 
                   >
-                    <h5 class="card-title" style={{ color: '#3247d5' }}>Announcement Title</h5>
-                    <p class="card-text" >Announcement content goes here.</p>
-                    <a href="#" class="btn btn-primary">Read More</a>
+                    <h5 className="card-title" style={{ color: '#3247d5' }}>Announcement Title</h5>
+                    <p className="card-text" >Announcement content goes here.</p>
+                    <a href="#" className="btn btn-primary">Read More</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div className="col-md-4">
             <div className="card  mb-4">
               <div
                 className="card-body"
@@ -133,7 +133,7 @@ function Dashboard() {
 
             </div>
           </div>
-          <div class="col-md-4 "  >
+          <div className="col-md-4 "  >
             <div className="card mb-4 " id={dashboard.cardCeneter}  >
               <div
                 className="card-body mb-1">
@@ -154,10 +154,10 @@ function Dashboard() {
                   alt="Picture of the author"
                   width={100}
                   height={100}
-                  class='mb-4'
+                  className='mb-4'
                 />
-                <div class='mb-4'>
-                  <button class="btn btn-primary ">View My Profile</button>
+                <div className='mb-4'>
+                  <button className="btn btn-primary ">View My Profile</button>
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@ function Dashboard() {
         </div>
         {/* second line of code  */}
         <div className="row">
-          <div class="col-md-6 "  >
+          <div className="col-md-6 "  >
             <div className="card mb-4">
               <div className="card-header text-white " style={{ backgroundColor: '#18D7C0' }}>
                 <BiInjection style={{ color: 'white', fontSize: '25px' }} />
@@ -216,10 +216,10 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div class="col-md-6 "  >
+          <div className="col-md-6 "  >
             <div className="card">
               <div className="card-header">
-                <h5 class="card-title" style={{ color: '#3247d5' }}>Holidays</h5>
+                <h5 className="card-title" style={{ color: '#3247d5' }}>Holidays</h5>
                 <p className="card-subtitle mt-1 mb-1">
 
                   These are the upcoming holidays</p>
@@ -250,7 +250,7 @@ function Dashboard() {
         <div className="row">
           <div className="col-md-2">
           </div>
-          <div class="col-md-4 "  >
+          <div className="col-md-4 "  >
             <div className="card">
               <div className="card-header  text-white" style={{ backgroundColor: '#70be51' }}>
                 <div className="col-md-2">
@@ -269,13 +269,13 @@ function Dashboard() {
               </div>
               <div className="card-body">
                 <div className="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100 btnCount">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100 btnCount">
                       {count} Pending
                     </button>
                   </div>
-                  <div class="col-md-6">
-                    <button class="btn  btn-outline-secondary  w-100">
+                  <div className="col-md-6">
+                    <button className="btn  btn-outline-secondary  w-100">
                       {count} Pending
                     </button>
                   </div>
@@ -283,14 +283,14 @@ function Dashboard() {
 
                 <br></br>
 
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100">
+                <div className="row">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100">
                       {count} Pending
                     </button>
                   </div>
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100">
                       {count} Pending
                     </button>
                     <br></br>
@@ -299,7 +299,7 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div class="col-md-4 "  >
+          <div className="col-md-4 "  >
             <div className="card">
               <div className="card-header bg-primary text-white">
                 <div className="col-md-2">
@@ -318,13 +318,13 @@ function Dashboard() {
               </div>
               <div className="card-body">
                 <div className="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100 btnCount">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100 btnCount">
                       {count} Pending
                     </button>
                   </div>
-                  <div class="col-md-6">
-                    <button class="btn  btn-outline-secondary  w-100">
+                  <div className="col-md-6">
+                    <button className="btn  btn-outline-secondary  w-100">
                       {count} Pending
                     </button>
                   </div>
@@ -332,14 +332,14 @@ function Dashboard() {
 
                 <br></br>
 
-                <div class="row">
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100">
+                <div className="row">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100">
                       {count} Pending
                     </button>
                   </div>
-                  <div class="col-md-6">
-                    <button class="btn btn-outline-secondary w-100">
+                  <div className="col-md-6">
+                    <button className="btn btn-outline-secondary w-100">
                       {count} Pending
                     </button>
                     <br></br>

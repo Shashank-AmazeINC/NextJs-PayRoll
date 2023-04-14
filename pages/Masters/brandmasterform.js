@@ -33,9 +33,9 @@ function BrandMasterForm() {
   function clearForm(BandMasterData = null) {
     debugger;
     let details = {
-      ID: BandMasterData ? BandMasterData.id : "",
-      Short: BandMasterData ? BandMasterData.short : "",
-      Description: BandMasterData ? BandMasterData.description : "",
+      "ID": BandMasterData ? BandMasterData.id : "",
+      "Short": BandMasterData ? BandMasterData.short : "",
+      "Description": BandMasterData ? BandMasterData.description : "",
     };
     reset(details);
     setActionType(BandMasterData ? "update" : "insert");
@@ -51,7 +51,7 @@ function BrandMasterForm() {
       } catch (error) {
         
       }
-      a
+      
      
     } else {
       await axios.post(hostURL + "Master/UpdateBrandMaster", data);

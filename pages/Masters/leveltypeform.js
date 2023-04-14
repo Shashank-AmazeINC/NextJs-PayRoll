@@ -33,9 +33,13 @@ function LevelTypeForm() {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, update it!'
       }).then((result) => {
-        if (result) {
+        if (result.isConfirmed) {
           axios.post(hostURL + "Master/UpdateLevelType", data)
           sessionStorage.removeItem("id");
+          Swal.fire({
+            icon: "success",
+            titleText: "Updated Successfully"
+          })
           location.href = "/Masters/leveltypedashboard";
         }
       })
